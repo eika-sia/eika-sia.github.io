@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/site/SectionHeader.astro';
+import EducationTimeline from '../components/site/EducationTimeline.astro';
+import ProjectHighlights from '../components/projects/ProjectHighlights.astro';
+import CurrentProjects from '../components/projects/CurrentProjects.astro';
+import Highlights from '../components/projects/Highlights.astro';
+---
+
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="py-16 text-center">
+    <h1 class="text-5xl font-bold mb-4">Eika</h1>
+    <p class="text-xl mb-6">Personal Website & Interactive CV</p>
+    <div class="flex justify-center gap-4 mb-8">
+      <a href="mailto:your@email.com" class="underline">Email</a>
+      <a href="https://github.com/yourgithub" class="underline">GitHub</a>
+    </div>
+  </section>
+
+  <!-- Education Timeline/Progress -->
+  <section class="max-w-2xl mx-auto mb-12">
+    <SectionHeader title="Formal Education" />
+    <EducationTimeline />
+  </section>
+
+  <!-- Informal Learning & Projects -->
+  <section class="max-w-4xl mx-auto mb-12">
+    <SectionHeader title="Passion Projects & Informal Learning" />
+    <ProjectHighlights />
+  </section>
+
+  <!-- Current Projects -->
+  <section class="max-w-2xl mx-auto mb-12">
+    <SectionHeader title="Current Projects" />
+    <CurrentProjects />
+  </section>
+
+  <!-- Blog & Project Highlights -->
+  <section class="max-w-4xl mx-auto mb-12">
+    <SectionHeader title="Highlights" />
+    <Highlights />
+  </section>
+</BaseLayout>

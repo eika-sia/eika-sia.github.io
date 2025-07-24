@@ -1,0 +1,11 @@
+---
+import Card from '../site/Card.astro';
+import ProgressBar from '../site/ProgressBar.astro';
+---
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <Card title="Neural Simulation" description="Simulating basic neural dynamics using spiking models." tags={["neuro", "simulation"]}>
+    <ProgressBar progress={0.6} />
+  </Card>
+  <Card title="CTF Writeups" description="Reverse engineering and security challenges." tags={["ctf", "security"]} />
+  <Card title="Music & Art" description="Fun explorations in music and generative art." tags={["music", "art"]} />
+</div>

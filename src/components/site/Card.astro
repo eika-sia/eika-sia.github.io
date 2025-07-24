@@ -1,0 +1,17 @@
+---
+const { title, description, tags = [] } = Astro.props;
+---
+<div class="mb-6 p-4 rounded-lg border border-gray-200 bg-[#fafafa] shadow-sm">
+  <h3 class="font-semibold text-lg mb-1">{title}</h3>
+  <p class="mb-2 text-gray-600">{description}</p>
+  {tags.length > 0 && (
+    <div class="mb-2 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span class="bg-gray-100 text-xs px-2 py-1 rounded">{tag}</span>
+      ))}
+    </div>
+  )}
+  <div>
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply bg-[#f7f7f7] text-[#222] font-mono antialiased min-h-screen;
+}
+
+a {
+	@apply text-blue-600 underline underline-offset-2 hover:text-blue-800 transition;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@apply font-bold font-mono;
+}
+
+main {
+	@apply max-w-2xl mx-auto px-4 py-8;
+}
