@@ -7,4 +7,8 @@ export default defineConfig({
 	site: "https://eikasia.net",
 	base: "/",
 	integrations: [tailwind()],
+	output: "static",
+	build: {
+		assets: "_astro"
+	}
 });
