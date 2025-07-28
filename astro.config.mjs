@@ -10,5 +10,11 @@ export default defineConfig({
 	output: "static",
 	build: {
 		assets: "_astro",
+		assetsPrefix: "./",
+	},
+	vite: {
+		build: {
+			assetsInlineLimit: 0,
+		},
 	},
 });
