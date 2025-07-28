@@ -9,6 +9,6 @@ export default defineConfig({
 	integrations: [tailwind()],
 	output: "static",
 	build: {
-		assets: "_astro"
-	}
+		assets: "_astro",
+	},
 });
