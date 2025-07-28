@@ -1,9 +1,58 @@
 ---
-import Card from '../site/Card.astro';
+interface EducationItem {
+  institution: string;
+  location: string;
+  degree: string;
+  start: string;
+  end: string;
+  gpa: string;
+  ects: number;
+  focus: string;
+  coursework: string[];
+}
+
+import educationData from '../../data/education.json';
 import ProgressBar from '../site/ProgressBar.astro';
+
+const typedEducationData: EducationItem[] = educationData;
 ---
-<div>
-  <Card title="BSc Neuroscience" description="Example University, 2018-2022" tags={["ECTS: 180"]}>
-    <ProgressBar progress={1} />
-  </Card>
+
+<div class="space-y-10">
+  {typedEducationData.map((edu: EducationItem) => (
+    <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-8 hover:border-violet-400/40 transition-all">
+      <div class="flex items-start justify-between mb-6">
+        <div class="flex-1">
+          <h3 class="text-xl font-semibold text-slate-100 mb-2">{edu.degree}</h3>
+          <p class="text-violet-400 text-base mb-3">{edu.institution}</p>
+          <p class="text-slate-400 text-sm">{edu.location}</p>
+        </div>
+        <div class="text-right text-sm text-slate-400 ml-6">
+          <div class="mono text-base">{edu.start} - {edu.end}</div>
+          <div class="text-violet-400 mt-1">GPA: {edu.gpa}</div>
+          <div class="text-slate-500">{edu.ects} ECTS</div>
+        </div>
+      </div>
+      
+      <div class="mb-6">
+        <p class="text-slate-300 text-base mb-4">
+          <span class="text-violet-400 font-semibold">Research focus:</span> {edu.focus}
+        </p>
+        <div class="flex flex-wrap gap-3">
+          {edu.coursework.map((course: string) => (
+            <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 text-sm px-3 py-2 rounded mono">
+              {course}
+            </span>
+          ))}
+        </div>
+      </div>
+      
+      <div class="mt-6">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-violet-400 text-sm mono">[IN PROGRESS]</span>
+          <span class="text-slate-500 text-sm">Expected 2028</span>
+        </div>
+        <ProgressBar progress={0.33} />
+      </div>
+    </div>
+  ))}
 </div>

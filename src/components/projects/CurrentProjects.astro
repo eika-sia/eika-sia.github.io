@@ -1,9 +1,33 @@
 ---
+import { getCollection, type CollectionEntry } from "astro:content";
 import Card from '../site/Card.astro';
-import ProgressBar from '../site/ProgressBar.astro';
+
+const projects = await getCollection("projects");
 ---
-<div>
-  <Card title="Neural Simulation" description="Simulating basic neural dynamics using spiking models." tags={["neuro", "simulation"]}>
-    <ProgressBar progress={0.6} />
-  </Card>
+
+<div class="grid gap-10 md:grid-cols-2">
+  {projects.map((project: CollectionEntry<"projects">) => (
+    <Card title={project.data.title} description={project.data.description} tags={project.data.tags}>
+      <div class="text-sm text-slate-400 mb-4 mono">
+        <span class="text-violet-400">[{project.data.status.toUpperCase()}]</span>
+        <span class="ml-3">{project.data.date}</span>
+      </div>
+      <div class="text-base text-slate-300 mb-6">
+        <span class="text-violet-400 font-semibold">Collaborators:</span> {project.data.collaborators.join(", ")}
+      </div>
+      <div class="flex items-center gap-4">
+        <span class={`px-3 py-2 rounded text-sm mono ${
+          project.data.tags.includes('research') ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+          project.data.tags.includes('hardware') ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
+          'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+        }`}>
+          {project.data.tags.includes('research') ? 'research' : 
+           project.data.tags.includes('hardware') ? 'hardware' : 'project'}
+        </span>
+        <a href={`/projects/${project.slug}`} class="text-violet-400 hover:text-violet-300 text-sm">
+          View Details →
+        </a>
+      </div>
+    </Card>
+  ))}
 </div>

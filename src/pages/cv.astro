@@ -1,14 +1,18 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactInfo from "../components/site/ContactInfo.astro";
 import FullHistory from "../components/site/FullHistory.astro";
-layout: "../layouts/BaseLayout.astro";
 ---
 
-<section class="max-w-3xl mx-auto py-12">
-  <h1 class="text-4xl font-bold mb-6">Curriculum Vitae</h1>
-  <ContactInfo />
-  <FullHistory />
-  <div class="mt-8">
-    <a href="/cv.pdf" class="underline">Download CV (PDF)</a>
-  </div>
-</section>
+<BaseLayout>
+  <section class="max-w-3xl mx-auto py-12">
+    <h1 class="text-4xl font-bold mb-6 text-slate-100">Curriculum Vitae</h1>
+    <ContactInfo />
+    <FullHistory />
+    <div class="mt-8">
+      <a href="/cv.pdf" class="text-violet-400 hover:text-violet-300 transition-colors">
+        <span class="text-violet-400">📄</span> Download CV (PDF)
+      </a>
+    </div>
+  </section>
+</BaseLayout>

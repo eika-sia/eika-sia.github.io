@@ -1,9 +1,46 @@
 ---
-import ProjectList from "../components/projects/ProjectList.astro";
-layout: "../layouts/BaseLayout.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from "astro:content";
+import Card from '../components/site/Card.astro';
+
+const projects = await getCollection("projects");
+// Sort by date (newest first)
+const sortedProjects = projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<section class="max-w-4xl mx-auto py-12">
-  <h1 class="text-4xl font-bold mb-6">Projects</h1>
-  <ProjectList />
-</section>
+<BaseLayout>
+  <section class="py-8">
+    <h1 class="text-4xl font-bold mb-8 text-slate-100">Research Projects</h1>
+    <p class="text-lg text-slate-300 mb-12 max-w-3xl">
+      Exploring the intersection of neuroscience, computer engineering, and psychology through 
+      hands-on research and development projects.
+    </p>
+    
+    <div class="grid gap-8 md:grid-cols-2">
+      {sortedProjects.map((project: CollectionEntry<"projects">) => (
+        <Card title={project.data.title} description={project.data.description} tags={project.data.tags}>
+          <div class="text-xs text-slate-400 mb-3 mono">
+            <span class="text-violet-400">[{project.data.status.toUpperCase()}]</span>
+            <span class="ml-2">{project.data.date}</span>
+          </div>
+          <div class="text-sm text-slate-300 mb-4">
+            <span class="text-violet-400 font-semibold">Collaborators:</span> {project.data.collaborators.join(", ")}
+          </div>
+          <div class="flex items-center justify-between">
+            <span class={`px-2 py-1 rounded text-xs mono ${
+              project.data.tags.includes('research') ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+              project.data.tags.includes('hardware') ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
+              'bg-violet-500/20 text-violet-400 border border-violet-500/30'
+            }`}>
+              {project.data.tags.includes('research') ? 'research' : 
+               project.data.tags.includes('hardware') ? 'hardware' : 'project'}
+            </span>
+            <a href={`/projects/${project.slug}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
+              View Details →
+            </a>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

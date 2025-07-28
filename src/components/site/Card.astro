@@ -1,13 +1,19 @@
 ---
-const { title, description, tags = [] } = Astro.props;
+const { title, description, tags = [] }: {
+  title: string;
+  description: string;
+  tags?: string[];
+} = Astro.props;
 ---
-<div class="mb-6 p-4 rounded-lg border border-gray-200 bg-[#fafafa] shadow-sm">
-  <h3 class="font-semibold text-lg mb-1">{title}</h3>
-  <p class="mb-2 text-gray-600">{description}</p>
+<div class="mb-8 p-8 rounded-lg border border-violet-500/20 bg-slate-700/30 shadow-lg hover:border-violet-400/40 hover:bg-slate-600/30 transition-all duration-300 group">
+  <h3 class="font-semibold text-xl mb-4 text-slate-100 group-hover:text-violet-200">{title}</h3>
+  <p class="mb-6 text-slate-300 text-base leading-relaxed">{description}</p>
   {tags.length > 0 && (
-    <div class="mb-2 flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span class="bg-gray-100 text-xs px-2 py-1 rounded">{tag}</span>
+    <div class="mb-6 flex flex-wrap gap-3">
+      {tags.map((tag: string) => (
+        <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 text-sm px-4 py-2 rounded-full mono hover:border-violet-400/50 transition-colors">
+          {tag}
+        </span>
       ))}
     </div>
   )}

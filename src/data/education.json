@@ -1,9 +1,33 @@
 [
 	{
-		"institution": "Example University",
-		"degree": "BSc Neuroscience",
-		"start": "2018",
-		"end": "2022",
-		"ects": 180
+		"institution": "Faculty of Electrical Engineering and Computing",
+		"location": "Zagreb, Croatia",
+		"degree": "Bachelor of Computer Engineering",
+		"start": "2024",
+		"end": "2028 (expected)",
+		"gpa": "4.62/5.00",
+		"ects": 64,
+		"focus": "Computational mechanisms in neural networks and cybersecurity",
+		"coursework": [
+			"Mathematical Analysis",
+			"Computer Architecture",
+			"Information Theory",
+			"Competitive Cybersecurity Skills"
+		]
+	},
+	{
+		"institution": "DOBA Faculty",
+		"location": "Maribor, Slovenia",
+		"degree": "Bachelor of Applied Psychology",
+		"start": "2024",
+		"end": "2028 (expected)",
+		"gpa": "9.00/10.00",
+		"ects": 60,
+		"focus": "Spatial cognition and local neural dynamics",
+		"coursework": [
+			"Clinical Psychology",
+			"Cognitive and Neuroscience",
+			"Decision-Making Cognition"
+		]
 	}
 ]

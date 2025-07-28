@@ -1,0 +1,59 @@
+[
+	{
+		"position": "Mentor",
+		"organization": "Višnjan Astronomical Society – S3 Program",
+		"location": "Višnjan, Croatia",
+		"start": "August 2025",
+		"end": "August 2025",
+		"type": "internship",
+		"description": [
+			"Preparation of educational STEM materials with a focus on electronics and biophysics",
+			"Conducting workshops and project-based activities with children"
+		]
+	},
+	{
+		"position": "System Administrator",
+		"organization": "Speedcubing Croatia",
+		"location": "Croatia",
+		"start": "January 2025",
+		"end": "Present",
+		"type": "ongoing",
+		"description": [
+			"Development and maintenance of the organization's website",
+			"Development and administration of the CMS platform used by the organization"
+		]
+	},
+	{
+		"position": "Lab Demonstrator",
+		"organization": "Faculty of Electrical Engineering and Computing",
+		"location": "Zagreb, Croatia",
+		"start": "October 2024",
+		"end": "February 2025",
+		"type": "academic",
+		"description": [
+			"Assisted students during lab exercises in the course Digital Logic",
+			"Learned and applied VHDL and FPGA technologies"
+		]
+	},
+	{
+		"position": "Documentation Archivist",
+		"organization": "mStart Ltd.",
+		"location": "Croatia",
+		"start": "July 2024",
+		"end": "August 2025",
+		"type": "internship",
+		"description": [
+			"Handling and preparing documentation for archival",
+			"Error checking and verification of documentation"
+		]
+	},
+	{
+		"position": "Volunteer Tutor",
+		"organization": "Zlatni zmaj",
+		"location": "Croatia",
+		"start": "2022",
+		"end": "2024",
+		"type": "volunteer",
+		"description": ["Tutored children in completing school assignments"]
+	}
+]

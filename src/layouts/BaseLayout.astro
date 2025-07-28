@@ -1,15 +1,30 @@
 ---
+import '../styles/global.css';
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eika | Personal Website</title>
-    <link rel="stylesheet" href="/src/styles/global.css" />
+    <title>Goran Ivančić | Neuroscientist & Computer Engineer</title>
+    <meta name="description" content="Exploring the intersection of human cognition and technology through neuroscience research, cybersecurity challenges, and psychological understanding.">
   </head>
-  <body>
-    <main>
-      <div class="bg-white rounded-xl shadow border border-gray-200 p-8">
+  <body class="bg-slate-900 text-slate-200 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="max-w-4xl mx-auto px-4 py-6">
+      <div class="flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-slate-100 hover:text-violet-300 transition-colors">
+          Goran Ivančić
+        </a>
+        <div class="flex gap-6 text-sm">
+          <a href="/blog" class="text-slate-300 hover:text-violet-300 transition-colors">Blog</a>
+          <a href="/projects" class="text-slate-300 hover:text-violet-300 transition-colors">Projects</a>
+          <a href="/cv" class="text-slate-300 hover:text-violet-300 transition-colors">CV</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 pb-8">
+      <div class="bg-slate-800/40 backdrop-blur-sm rounded-lg border border-violet-500/20 p-8 shadow-2xl shadow-violet-500/5">
         <slot />
       </div>
     </main>
