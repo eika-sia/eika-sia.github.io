@@ -7,7 +7,7 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"deploy": "astro build && npx gh-pages -d dist -r https://github.com/eika-sia/homepage.git"
+		"deploy": "astro build && npx gh-pages -d dist -b gh-pages -m 'Deploy to GitHub Pages'"
 	},
 	"dependencies": {
 		"@astrojs/tailwind": "^6.0.2",
