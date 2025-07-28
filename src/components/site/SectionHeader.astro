@@ -1,11 +1,12 @@
 ---
-const { title }: { title: string } = Astro.props;
+const { title = "" }: { title?: string } = Astro.props;
+const { folder = "" }: { folder?: string} = Astro.props;
 ---
 <div class="mb-12">
   <div class="flex items-center gap-3 mb-4">
-    <span class="text-violet-400 mono text-lg">~/</span>
-    <span class="text-slate-500 mono text-base">sections</span>
     <span class="text-violet-400 mono text-lg">$</span>
+    <span class="text-slate-500 mono text-base">ls ~/</span>
+    <span class="text-violet-400 mono text-lg">{folder}</span>
   </div>
   <h2 class="text-3xl font-bold mb-6 text-slate-100 border-l-4 border-violet-500 pl-6">
     {title}

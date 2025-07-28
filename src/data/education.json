@@ -7,6 +7,7 @@
 		"end": "2028 (expected)",
 		"gpa": "4.62/5.00",
 		"ects": 64,
+		"ectsTotal": 184,
 		"focus": "Computational mechanisms in neural networks and cybersecurity",
 		"coursework": [
 			"Mathematical Analysis",
@@ -23,6 +24,7 @@
 		"end": "2028 (expected)",
 		"gpa": "9.00/10.00",
 		"ects": 60,
+		"ectsTotal": 180,
 		"focus": "Spatial cognition and local neural dynamics",
 		"coursework": [
 			"Clinical Psychology",

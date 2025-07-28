@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/site/SectionHeader.astro';
 import EducationTimeline from '../components/site/EducationTimeline.astro';
-import ProjectHighlights from '../components/projects/ProjectHighlights.astro';
 import CurrentProjects from '../components/projects/CurrentProjects.astro';
 import Highlights from '../components/projects/Highlights.astro';
 ---
@@ -20,9 +19,7 @@ import Highlights from '../components/projects/Highlights.astro';
       <span class="cursor-blink text-violet-400 ml-1">▊</span>
     </div>
     <p class="text-lg mb-12 text-slate-300 max-w-2xl mx-auto leading-relaxed">
-      Exploring the intersection of human cognition and technology through neuroscience research, 
-      cybersecurity challenges, and psychological understanding. Currently pursuing dual degrees in 
-      Computer Engineering and Applied Psychology.
+      Exploring human cognition through computational neuroscience. Playing CTFs and learning operating systems on the side.
     </p>
     <div class="flex justify-center gap-8 mb-12 text-sm">
       <a href="mailto:goran.ivancic@fer.hr" class="bg-slate-700/50 border border-violet-500/30 px-8 py-4 rounded-lg hover:border-violet-400/50 hover:bg-slate-600/50 transition-all">
@@ -33,25 +30,25 @@ import Highlights from '../components/projects/Highlights.astro';
       </a>
     </div>
     <div class="text-sm text-slate-500 mono">
-      Research interests: <span class="text-violet-400">Local neural dynamics • Spatial cognition • Computer architecture • Cryptography</span>
+      Research interests: <span class="text-violet-400">Local neural dynamics • Computer architecture • Spatial cognition • Cryptography</span>
     </div>
   </section>
 
   <!-- Education Timeline/Progress -->
   <section class="max-w-3xl mx-auto mb-20">
-    <SectionHeader title="Education" />
+    <SectionHeader title="Education" folder="learning" />
     <EducationTimeline />
   </section>
 
   <!-- Current Projects -->
   <section class="max-w-5xl mx-auto mb-20">
-    <SectionHeader title="Current Research & Projects" />
+    <SectionHeader title="Current Research & Projects" folder="projects"/>
     <CurrentProjects />
   </section>
 
-  <!-- Blog & Project Highlights -->
+  <!-- Publications & Awards -->
   <section class="max-w-5xl mx-auto mb-16">
-    <SectionHeader title="Publications & Awards" />
+    <SectionHeader title="Publications & Awards" folder="extras"/>
     <Highlights />
   </section>
 </BaseLayout>
@@ -142,10 +139,10 @@ import Highlights from '../components/projects/Highlights.astro';
     const typewriterElement = document.getElementById('typewriter');
     if (typewriterElement) {
       new Typewriter(typewriterElement, [
-        'neuroscientist',
+        'Neuroscientist',
         'CTF player', 
-        'psychologist',
-        'computer engineer'
+        'Psychologist',
+        'Computer Engineer'
       ], {
         typeSpeed: 100,     // Slightly faster typing
         deleteSpeed: 60,    // Faster deletion

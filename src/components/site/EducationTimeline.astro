@@ -7,6 +7,7 @@ interface EducationItem {
   end: string;
   gpa: string;
   ects: number;
+  ectsTotal: number;
   focus: string;
   coursework: string[];
 }
@@ -29,10 +30,14 @@ const typedEducationData: EducationItem[] = educationData;
         <div class="text-right text-sm text-slate-400 ml-6">
           <div class="mono text-base">{edu.start} - {edu.end}</div>
           <div class="text-violet-400 mt-1">GPA: {edu.gpa}</div>
-          <div class="text-slate-500">{edu.ects} ECTS</div>
+          <div class="text-slate-500">{edu.ectsTotal} ECTS</div>
         </div>
       </div>
       
+      <div class="mt-6">
+        <ProgressBar progress={edu.ects/edu.ectsTotal} />
+      </div>
+
       <div class="mb-6">
         <p class="text-slate-300 text-base mb-4">
           <span class="text-violet-400 font-semibold">Research focus:</span> {edu.focus}
@@ -44,14 +49,6 @@ const typedEducationData: EducationItem[] = educationData;
             </span>
           ))}
         </div>
-      </div>
-      
-      <div class="mt-6">
-        <div class="flex items-center gap-3 mb-3">
-          <span class="text-violet-400 text-sm mono">[IN PROGRESS]</span>
-          <span class="text-slate-500 text-sm">Expected 2028</span>
-        </div>
-        <ProgressBar progress={0.33} />
       </div>
     </div>
   ))}

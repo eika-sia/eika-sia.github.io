@@ -5,7 +5,7 @@ import Card from '../components/site/Card.astro';
 
 const projects = await getCollection("projects");
 // Sort by date (newest first)
-const sortedProjects = projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const sortedProjects = projects.sort((a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <BaseLayout>
@@ -35,7 +35,7 @@ const sortedProjects = projects.sort((a, b) => new Date(b.data.date).getTime() -
               {project.data.tags.includes('research') ? 'research' : 
                project.data.tags.includes('hardware') ? 'hardware' : 'project'}
             </span>
-            <a href={`/projects/${project.slug}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
+            <a href={`/projects/${project.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
               View Details →
             </a>
           </div>
