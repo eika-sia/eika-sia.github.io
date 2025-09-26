@@ -5,10 +5,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((project: CollectionEntry<"projects">) => ({
-    params: { slug: project.data.slug || project.id },
-    props: { project }
-  }));
+  return projects.map((project: CollectionEntry<"projects">) => {
+    const slug = (project.data as any).slug || project.id.replace(/\.md$/, '');
+    return { params: { slug }, props: { project: { ...project, data: { ...project.data, slug } } } };
+  });
 }
 
 const { project }: { project: CollectionEntry<"projects"> } = Astro.props;

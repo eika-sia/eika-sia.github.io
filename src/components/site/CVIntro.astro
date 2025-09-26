@@ -1,36 +1,27 @@
 ---
-// Simple CV intro/header panel
-const NAME = 'Goran Ivančić';
+// Simplified intro (stats removed per request)
 const TAGLINE = 'Computational neuroscience • Cognitive systems • Hardware & security';
 ---
-<section class="group relative rounded-2xl border border-[var(--accent-soft)]/18 bg-[rgba(18,22,32,0.4)] backdrop-blur-md p-8 md:p-10 mb-12 shadow-[0_0_0_1px_rgba(0,0,0,0.3),0_10px_32px_-12px_rgba(0,0,0,0.55)]">
-  <header class="mb-8">
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-100 mb-4">
-      Curriculum Vitae
-    </h1>
-    <p class="text-[var(--accent-soft)] text-sm md:text-base mono">{TAGLINE}</p>
+<section class="group relative border border-[var(--accent-soft)]/20 bg-[rgba(18,22,32,0.42)] backdrop-blur-md p-8 md:p-12 mb-12 shadow-[0_0_0_1px_rgba(0,0,0,0.35),0_14px_40px_-16px_rgba(0,0,0,0.65)] overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-[0.33] bg-[radial-gradient(circle_at_35%_15%,rgba(77,83,201,0.25),transparent_55%)]"></div>
+  <header class="mb-10 flex flex-col md:flex-row md:items-start md:justify-between gap-6 relative z-10">
+    <div class="space-y-5 max-w-2xl">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-100 leading-tight">
+        Curriculum Vitae
+      </h1>
+      <p class="text-[var(--accent-soft)] text-sm md:text-base mono tracking-wide">{TAGLINE}</p>
+      <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-xl">
+        Dual-track undergraduate student bridging <span class="text-[var(--accent-soft)] font-semibold">computer engineering</span> and <span class="text-[var(--accent-soft)] font-semibold">applied psychology</span>.
+        I focus on computational models of neural dynamics, spatial cognition and low-level computer systems while building practical hardware (EEG, FPGA) and sharpening cybersecurity skills.
+      </p>
+    </div>
+    <div class="flex md:flex-col gap-4 md:items-end">
+      <a href="/cv.pdf" class="group relative inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-semibold tracking-wide bg-[linear-gradient(140deg,rgba(24,28,40,0.95),rgba(55,38,64,0.85))] border border-[var(--accent-soft)]/50 text-[var(--text-strong)] shadow-[0_10px_34px_-14px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.05)] hover:border-[var(--accent-soft)]/70 hover:shadow-[0_18px_52px_-18px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.07)] transition-all">
+        <span class="text-lg">📄</span>
+        <span>Download PDF</span>
+      </a>
+    </div>
   </header>
-  <div class="grid gap-10 md:grid-cols-3">
-    <div class="space-y-4">
-      <h2 class="text-lg font-semibold text-slate-100 flex items-center gap-2">Primary Contact</h2>
-      <ul class="space-y-2 text-sm text-slate-300">
-        <li class="flex gap-2 items-center"><span class="text-[var(--accent-soft)]">✉</span><a class="hover:text-[var(--accent)] transition-colors" href="mailto:goran.ivancic@fer.hr">goran.ivancic@fer.hr</a></li>
-        <li class="flex gap-2 items-center"><span class="text-[var(--accent-soft)]">☎</span><a class="hover:text-[var(--accent)] transition-colors" href="tel:+385915420893">+385 91 542 0893</a></li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <h2 class="text-lg font-semibold text-slate-100 flex items-center gap-2">Academic Contact</h2>
-      <ul class="space-y-2 text-sm text-slate-300">
-        <li class="flex gap-2 items-center"><span class="text-[var(--accent-soft)]">✉</span><a class="hover:text-[var(--accent)] transition-colors" href="mailto:goran.ivancic@net.doba.si">goran.ivancic@net.doba.si</a></li>
-        <li class="flex gap-2 items-center"><span class="text-[var(--accent-soft)]">🏛</span><span>DOBA Faculty, Maribor</span></li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <h2 class="text-lg font-semibold text-slate-100 flex items-center gap-2">Current Affiliations</h2>
-      <ul class="space-y-3 text-sm text-slate-300">
-        <li><span class="text-[var(--accent-soft)] font-medium">Computer Engineering</span><br />Faculty of Electrical Engineering and Computing, Zagreb</li>
-        <li><span class="text-[var(--accent-soft)] font-medium">Applied Psychology</span><br />DOBA Faculty, Maribor</li>
-      </ul>
-    </div>
-  </div>
+
+  <!-- Contact & stats removed per request -->
 </section>

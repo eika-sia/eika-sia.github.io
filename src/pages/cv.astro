@@ -4,22 +4,69 @@ import CVIntro from "../components/site/CVIntro.astro";
 import EducationTimeline from "../components/site/EducationTimeline.astro";
 import FullHistory from "../components/site/FullHistory.astro";
 import SectionHeader from "../components/site/SectionHeader.astro";
+import PublicationsList from "../components/site/PublicationsList.astro";
 ---
 
 <BaseLayout>
-  <section class="max-w-3xl mx-auto py-12">
-  <CVIntro />
+  <div class="content-shell">
+  <section class="relaxed-section max-w-6xl mx-auto space-y-28 md:space-y-32">
+      <!-- Intro Panel -->
+      <div class="cv-section">
+        <CVIntro />
+  <div class="mt-6 text-xs mono text-slate-600">Last updated: {new Date().toISOString().slice(0,10)}</div>
+      </div>
 
-    <section class="mt-10 mb-16">
-      <SectionHeader title="Education" folder="learning" variant="bar" sub="Formal degree programs and academic progression." />
-      <EducationTimeline />
-    </section>
+      <!-- Links Panel -->
+      <div class="cv-flat-section cv-section">
+        <SectionHeader command="cat ~/links.txt" showPrompt={true} title="Links" variant="bar" sub="Quick reference endpoints & handles." />
+        <ul class="links-grid first-card-gap">
+          <li>
+            <a href="https://github.com/eika-sia" target="_blank" rel="noopener" class="link-card">
+              <span class="link-label">GitHub</span>
+              <span class="link-value mono">github.com/eika-sia</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:goran.ivancic@fer.hr" class="link-card">
+              <span class="link-label">Email</span>
+              <span class="link-value mono">goran.ivancic@fer.hr</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://ctftime.org/team/359032" target="_blank" rel="noopener" class="link-card">
+              <span class="link-label">CTFTime</span>
+              <span class="link-value mono">team/359032</span>
+            </a>
+          </li>
+          <li>
+            <div class="link-card">
+              <span class="link-label">Discord</span>
+              <span class="link-value mono">@eikasia_</span>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-    <FullHistory />
-    <div class="mt-8">
-      <a href="/cv.pdf" class="text-violet-400 hover:text-violet-300 transition-colors">
-        <span class="text-violet-400">📄</span> Download CV (PDF)
-      </a>
+    <!-- Education Panel (flattened styling) -->
+  <div class="cv-flat-section p-0 space-y-10 cv-section">
+        <SectionHeader title="Education" folder="learning" variant="bar" sub="Formal degree programs and academic progression." />
+        <div class="first-card-gap">
+          <EducationTimeline />
+        </div>
+      </div>
+
+    <!-- Publications Panel -->
+    <div class="cv-flat-section p-0 space-y-10 cv-section">
+      <SectionHeader title="Publications" folder="papers" variant="bar" sub="Conference & course outputs." />
+      <div class="first-card-gap">
+        <PublicationsList />
+      </div>
     </div>
-  </section>
+
+    <!-- Experience & Interests Panel (flattened styling) -->
+  <div class="cv-flat-section p-0 space-y-14 cv-section">
+        <FullHistory />
+      </div>
+    </section>
+  </div>
 </BaseLayout>

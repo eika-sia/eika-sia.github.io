@@ -26,39 +26,46 @@ const sortedProjects: NormalizedProject[] = rawProjects
       : category === 'hardware'
         ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
         : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
-    return { id: p.id, data: p.data, tags, collaborators, status, category, categoryClasses };
+    // Fallback slug derived from filename if frontmatter slug missing
+    const derivedSlug = (p.data as any).slug || p.id.replace(/\.md$/, '');
+    return { id: p.id, data: { ...p.data, slug: derivedSlug } as any, tags, collaborators, status, category, categoryClasses };
   });
 ---
 
 <BaseLayout>
-  <section class="py-8 content-visibility-auto">
-    <h1 class="text-4xl font-bold mb-8 text-slate-100">Research Projects</h1>
-    <p class="text-lg text-slate-300 mb-12 max-w-3xl">
-      Exploring the intersection of neuroscience, computer engineering, and psychology through hands-on research and development projects.
-    </p>
-    
-  <div class="relaxed-grid cols-2 px-1 sm:px-2">
-  {sortedProjects.map((project: NormalizedProject) => (
-        <Card title={project.data.title} description={project.data.description} tags={project.tags}>
-          <div class="text-xs text-slate-400 mb-3 mono">
-            {project.status && <span class="text-violet-400">[{project.status.toUpperCase()}]</span>}
-            <span class="ml-2">{project.data.date}</span>
-          </div>
-          <div class="text-sm text-slate-300 mb-4">
-            {project.collaborators.length > 0 && <>
-            <span class="text-violet-400 font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
-            </>}
-          </div>
-          <div class="flex items-center justify-between">
-            <span class={`px-2 py-1 rounded text-xs mono ${project.categoryClasses}`}>
-              {project.category}
-            </span>
-            <a href={`/projects/${project.data.slug || project.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
-              View Details →
-            </a>
-          </div>
-        </Card>
-      ))}
-    </div>
-  </section>
+  <div class="content-shell">
+    <section class="relaxed-section max-w-6xl mx-auto">
+      <header class="space-y-5 md:space-y-7">
+        <h1 class="font-bold leading-tight tracking-tight text-slate-100 text-4xl md:text-5xl">Research Projects</h1>
+        <p class="narrow-text text-base md:text-lg text-slate-300 leading-relaxed md:leading-loose">
+          Exploring the intersection of neuroscience, computer engineering, and psychology through hands-on research and development projects.
+        </p>
+        <div class="header-accent-bar w-60"></div>
+      </header>
+      <div class="first-card-gap relaxed-grid cols-2">
+        {sortedProjects.map((project: NormalizedProject) => (
+          <Card title={project.data.title} description={project.data.description} tags={project.tags}>
+            <div class="text-[12px] md:text-[13px] text-slate-400 mb-5 mono flex flex-wrap items-center gap-3 leading-relaxed">
+              {project.status && <span class="text-[var(--accent-soft)] font-semibold tracking-wide text-[12px] md:text-[13px]">[{project.status.toUpperCase()}]</span>}
+              <span class="text-slate-600">•</span>
+              <span class="text-slate-300">{new Date(project.data.date).toLocaleDateString()}</span>
+            </div>
+            {project.collaborators.length > 0 && (
+              <div class="text-[12px] md:text-[13px] text-slate-400/90 mb-7 tracking-wide leading-snug">
+                <span class="text-[var(--accent-soft)] font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
+              </div>
+            )}
+            <div class="flex items-center justify-between pt-1">
+              <span class={`px-2.5 py-1.5 rounded text-[11px] md:text-[12px] mono tracking-wide border font-medium shadow-[0_0_0_1px_rgba(77,83,201,0.12)] ${project.categoryClasses}`}>
+                {project.category}
+              </span>
+              <a href={`/projects/${(project.data as any).slug}`} class="badge !text-[0.66rem] md:!text-[0.7rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
+                View Details →
+              </a>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </section>
+  </div>
 </BaseLayout>

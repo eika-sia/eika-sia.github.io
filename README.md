@@ -36,8 +36,8 @@ No backend, no CMS. All content is edited directly in the repo.
 ```
 src/
     components/
-        site/          # Core UI primitives (Card, SectionHeader, ProgressBar, etc.)
-        projects/      # Project-related views (Highlights, ProjectPage, lists)
+    site/          # Core UI primitives (Card, SectionHeader, ProgressBar, etc.)
+    projects/      # Project-related views (ProjectPage, lists)
         blog/          # BlogPost renderer
     layouts/         # BaseLayout wrapper
     pages/           # Astro routes (index, blog, projects, cv + dynamic [slug])
@@ -46,7 +46,7 @@ src/
 public/            # Static assets + CNAME
 ```
 
-Removed legacy duplicate components (old Card/ProgressBar/SectionHeader + unused ProjectHighlights & BlogList) to avoid ambiguity.
+Removed legacy duplicate or deprecated components (old duplicates, unused ProjectHighlights, BlogList) to avoid ambiguity. Unified square card aesthetic site‑wide.
 
 ---
 
@@ -106,10 +106,12 @@ This project explores basic spiking neuron behavior using Hodgkin-Huxley models.
 
 Core (in `src/components/site`):
 
--   `Card.astro` – glass panel card (projects, publications, education)
--   `ProgressBar.astro` – gradient fill for progress metrics
--   `SectionHeader.astro` – terminal-inspired section heading (supports variants)
--   `BaseLayout.astro` (in `layouts/`) – global shell & navigation
+-   `Card.astro` – square glass card primitive (projects, publications, education)
+-   `SectionHeader.astro` – terminal-inspired section heading (variants)
+-   `CtaButton.astro` – unified call‑to‑action styling
+-   `PublicationsList.astro` – maps publications JSON to cards
+-   `FullHistory.astro` – CV experience, achievements, skills, interests
+-   `BaseLayout.astro` (in `layouts/`) – global shell, SEO meta, nav accent
 
 Design: single dark/glass aesthetic, subtle gradients, no theme toggle.
 
@@ -129,10 +131,14 @@ eikasia.net
 
 ## 📦 Possible Future Enhancements
 
--   [ ] RSS feed
+-   [x] RSS feed (implemented in `src/pages/rss.xml.ts`)
+-   [x] Sitemap generation (`src/pages/sitemap.xml.ts`)
 -   [ ] Tag filtering
 -   [ ] Search (client-side fuzzy)
--   [ ] Feed generation for projects
+-   [ ] Project feed generation
+-   [ ] Print/PDF CV stylesheet + auto export
+-   [ ] Structured data for individual blog posts (Article schema)
+-   [ ] Dynamic OG image generation
 
 ---
 

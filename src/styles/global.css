@@ -50,11 +50,51 @@ body {
 }
 
 body {
-	/* Use a single prerendered SVG to reduce paint cost */
 	background: #090b10 url("/bg-gradient.svg") center/cover no-repeat fixed;
 	color: var(--text);
 	transition: background 0.6s ease, color 0.4s ease;
 	position: relative;
+}
+.nav-links {
+	display: flex;
+	align-items: center;
+	gap: clamp(0.75rem, 2.2vw, 1.4rem); /* tighter separation */
+	padding-left: 0.4rem; /* minor inset */
+	border-radius: var(--radius-pill);
+	margin-right: 30px;
+}
+.nav-link {
+	position: relative;
+	padding: 0.42rem 0.72rem 0.46rem; /* smaller button */
+	line-height: 1.05;
+	border-radius: var(--radius-pill);
+	font-weight: 500;
+	letter-spacing: 0.03em;
+	display: inline-flex;
+	align-items: center;
+	font-size: 0.88rem;
+}
+.home-link {
+	padding-left: 0.85rem;
+	padding-right: 0.85rem;
+	margin-left: 30px;
+}
+.nav-link:hover {
+	background: rgba(111, 99, 216, 0.09);
+}
+.nav-link:focus-visible {
+	outline: none;
+	box-shadow: var(--focus-ring);
+}
+@media (min-width: 860px) {
+	.site-nav {
+		padding-top: 0.4rem;
+		padding-bottom: 0.4rem;
+	}
+	.nav-link {
+		padding: 0.44rem 0.78rem 0.48rem;
+		font-size: 0.9rem;
+	}
 }
 
 /* Optimized panel & badge (moved here after root) */
@@ -163,6 +203,415 @@ a:hover {
 	}
 }
 
+/* -------------------------------------------------------------------------- */
+/*  CV Enhancements                                                           */
+/* -------------------------------------------------------------------------- */
+.exp-grid {
+	display: grid;
+	gap: 2.2rem;
+}
+@media (min-width: 700px) {
+	.exp-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (min-width: 1200px) {
+	.exp-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+.exp-card {
+	position: relative;
+	border: 1px solid rgba(111, 99, 216, 0.18);
+	background: rgba(24, 28, 40, 0.52);
+	backdrop-filter: blur(10px);
+	border-radius: 0; /* square corners */
+	padding: 1.55rem 1.6rem 1.7rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.05rem;
+	box-shadow: 0 6px 22px -10px rgba(0, 0, 0, 0.7),
+		0 0 0 1px rgba(255, 255, 255, 0.04);
+	transition: box-shadow 0.4s, background 0.4s, border-color 0.4s,
+		transform 0.4s;
+}
+.exp-card:hover {
+	background: rgba(30, 36, 50, 0.66);
+	border-color: rgba(111, 99, 216, 0.45);
+	box-shadow: 0 10px 32px -8px rgba(0, 0, 0, 0.72),
+		0 0 0 1px rgba(255, 255, 255, 0.06);
+	transform: translateY(-2px);
+}
+.exp-title {
+	font-weight: 600;
+	font-size: 1.18rem;
+	line-height: 1.3;
+	color: var(--text-strong);
+	letter-spacing: -0.01em;
+}
+.exp-org {
+	font-size: 0.8rem;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--accent-soft);
+	font-weight: 600;
+}
+.exp-meta {
+	font-size: 0.72rem;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--text-dim);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem 1rem;
+}
+.exp-bullets {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.55rem;
+	margin: 0;
+	padding: 0;
+}
+.exp-bullets li {
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: var(--text);
+	position: relative;
+	padding-left: 1.05rem;
+}
+.exp-bullets li::before {
+	content: "•";
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: var(--accent-soft);
+}
+.chip,
+.skill-chip,
+.interest-chip {
+	background: linear-gradient(
+		145deg,
+		rgba(111, 99, 216, 0.16),
+		rgba(111, 99, 216, 0.05)
+	);
+	border: 1px solid rgba(111, 99, 216, 0.28);
+	padding: 0.5rem 0.85rem;
+	font-size: 0.62rem;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	border-radius: var(--radius-pill);
+	color: var(--accent-soft);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	line-height: 1;
+	font-weight: 500;
+}
+.skill-groups {
+	display: grid;
+	gap: 1.4rem 1.6rem;
+}
+@media (min-width: 750px) {
+	.skill-groups {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (min-width: 1180px) {
+	.skill-groups {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+.skill-group {
+	background: rgba(18, 22, 32, 0.38);
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-lg);
+	padding: 1.15rem 1.25rem 1.3rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
+}
+.skill-group h4 {
+	font-size: 0.78rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	font-weight: 600;
+	color: var(--accent-soft);
+}
+.skill-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 0.6rem;
+}
+.interest-cloud {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem 0.65rem;
+}
+.interest-chip {
+	font-size: 0.58rem;
+	padding: 0.45rem 0.75rem;
+}
+.download-banner {
+	display: flex;
+	justify-content: center;
+}
+.download-banner .badge {
+	font-size: 0.65rem;
+}
+
+/* Reintroduced glass styling for skill groups & bubbles */
+.skill-group {
+	background: rgba(24, 28, 40, 0.55);
+	border: 1px solid rgba(111, 99, 216, 0.22);
+	border-radius: 0; /* square */
+	padding: 1.05rem 1.15rem 1.15rem;
+	backdrop-filter: blur(8px);
+	box-shadow: 0 4px 16px -8px rgba(0, 0, 0, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.04);
+	transition: background 0.4s, border-color 0.4s, box-shadow 0.45s,
+		transform 0.35s;
+}
+.skill-group:hover {
+	background: rgba(30, 36, 50, 0.66);
+	border-color: rgba(111, 99, 216, 0.42);
+	box-shadow: 0 8px 26px -10px rgba(0, 0, 0, 0.65),
+		0 0 0 1px rgba(255, 255, 255, 0.06);
+	transform: translateY(-2px);
+}
+.skill-group h4 {
+	font-size: 0.85rem;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+	color: var(--accent-soft);
+	font-weight: 600;
+}
+.skill-chips {
+	gap: 0.55rem 0.65rem;
+}
+
+/* Skill bubbles (larger & readable) */
+.skill-chip {
+	background: linear-gradient(
+		140deg,
+		rgba(111, 99, 216, 0.18),
+		rgba(111, 99, 216, 0.06)
+	);
+	border: 1px solid rgba(111, 99, 216, 0.38);
+	padding: 0.5rem 0.85rem 0.55rem;
+	font-size: 0.82rem;
+	letter-spacing: 0.035em;
+	text-transform: none;
+	border-radius: var(--radius-pill);
+	font-weight: 500;
+	color: var(--text-strong);
+	line-height: 1;
+	position: relative;
+}
+
+/* Keep interests flat inline; remove dot separators for skills */
+.interest-cloud {
+	gap: 0.3rem 0.55rem;
+}
+.interest-chip {
+	background: none !important;
+	border: none !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	font-size: 0.78rem !important;
+	letter-spacing: 0.05em;
+	color: var(--text);
+	position: relative;
+}
+.interest-chip:not(:last-child)::after {
+	content: "·";
+	color: var(--text-dim);
+	margin: 0 0.5rem 0 0.45rem;
+}
+.skill-chip::after {
+	content: none !important;
+}
+
+/* Interests grouped (misc section enhancement) */
+.interest-groups {
+	display: grid;
+	gap: 1.8rem 2rem;
+}
+@media (min-width: 760px) {
+	.interest-groups {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+.interest-group {
+	background: rgba(24, 28, 40, 0.5);
+	border: 1px solid rgba(111, 99, 216, 0.18);
+	border-radius: 0; /* square */
+	padding: 1.15rem 1.25rem 1.25rem;
+	backdrop-filter: blur(8px);
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 5px 20px -10px rgba(0, 0, 0, 0.6),
+		0 0 0 1px rgba(255, 255, 255, 0.04);
+	transition: background 0.45s, border-color 0.4s, box-shadow 0.5s,
+		transform 0.35s;
+}
+.interest-group:hover {
+	background: rgba(32, 38, 54, 0.68);
+	border-color: rgba(111, 99, 216, 0.4);
+	box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.68),
+		0 0 0 1px rgba(255, 255, 255, 0.06);
+	transform: translateY(-2px);
+}
+.interest-group::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+		circle at 70% 25%,
+		rgba(111, 99, 216, 0.18),
+		transparent 60%
+	);
+	opacity: 0.5;
+	pointer-events: none;
+}
+.interest-label {
+	font-size: 0.7rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--accent-soft);
+	font-weight: 600;
+	margin-bottom: 0.85rem;
+}
+.interest-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 0.6rem;
+}
+.interest-chip {
+	background: linear-gradient(
+		140deg,
+		rgba(111, 99, 216, 0.16),
+		rgba(111, 99, 216, 0.05)
+	) !important;
+	border: 1px solid rgba(111, 99, 216, 0.34) !important;
+	padding: 0.45rem 0.75rem 0.5rem !important;
+	border-radius: var(--radius-pill) !important;
+	font-size: 0.75rem !important;
+	letter-spacing: 0.045em !important;
+	color: var(--text-strong) !important;
+	font-weight: 500;
+	position: relative;
+}
+.interest-chip:not(:last-child)::after {
+	content: none;
+}
+
+/* Links section styling */
+.links-grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1.1rem 1.25rem;
+}
+@media (min-width: 620px) {
+	.links-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (min-width: 1100px) {
+	.links-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+.link-card {
+	background: rgba(28, 32, 46, 0.55);
+	border: 1px solid rgba(111, 99, 216, 0.22);
+	border-radius: 0; /* square */
+	padding: 0.95rem 1.1rem 1.05rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	text-decoration: none;
+	backdrop-filter: blur(8px);
+	position: relative;
+	box-shadow: 0 4px 16px -10px rgba(0, 0, 0, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.04);
+	transition: background 0.35s, border-color 0.35s, box-shadow 0.4s,
+		transform 0.35s;
+}
+.link-card:hover {
+	background: rgba(34, 40, 56, 0.65);
+	border-color: rgba(111, 99, 216, 0.4);
+	box-shadow: 0 8px 26px -8px rgba(0, 0, 0, 0.65),
+		0 0 0 1px rgba(255, 255, 255, 0.06);
+	transform: translateY(-2px);
+}
+.link-label {
+	font-size: 0.65rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--accent-soft);
+	font-weight: 600;
+}
+.link-value {
+	font-size: 0.85rem;
+	color: var(--text-strong);
+	letter-spacing: 0.015em;
+	word-break: break-all;
+}
+
+/* (Blog teaser custom styles removed; homepage now reuses Card component) */
+
+/* Flat CV sections (remove glass panel backgrounds) */
+.cv-flat-section {
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
+}
+.cv-flat-section > *:first-child {
+	/* add slight offset so header bars align with intro layout rhythm */
+	margin-left: 0;
+}
+
+/* Tighten section spacing now that bubbles removed */
+.cv-section.space-y-10 {
+	--tw-space-y-reverse: 0;
+}
+.cv-section.space-y-10 > :where(:not(:first-child)) {
+	margin-top: 1.75rem;
+}
+
+/* CV Section internal separators */
+.cv-section + .cv-section {
+	margin-top: 3.25rem;
+	padding-top: 3.25rem;
+	position: relative;
+}
+.cv-section + .cv-section:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: linear-gradient(
+		to right,
+		transparent,
+		var(--accent-soft) 35%,
+		transparent
+	);
+	opacity: 0.55;
+}
+@media (min-width: 900px) {
+	.cv-section + .cv-section {
+		margin-top: 4rem;
+		padding-top: 4rem;
+	}
+	/* closing media query added */
+}
+
 /* Duplicate .badge rule with blur removed (performance cleanup) */
 
 .header-accent-bar {
@@ -256,11 +705,11 @@ a:hover {
 
 /* Consistent forced gap after section headers (prevents margin collapse) */
 .first-card-gap {
-	margin-top: 0.85rem;
+	margin-top: 0.85rem !important; /* enforce small gap after SectionHeader */
 }
 @media (min-width: 768px) {
 	.first-card-gap {
-		margin-top: 1rem;
+		margin-top: 0.95rem !important;
 	}
 }
 

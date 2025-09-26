@@ -1,0 +1,12 @@
+---
+interface Props { href: string; label: string; icon?: string; class?: string; }
+const { href, label, icon = '→', class: extraClass = '' } = Astro.props as Props;
+const base = `group relative inline-flex items-center justify-center rounded-none px-16 md:px-20 py-7 md:py-8 text-[1.25rem] md:text-[1.6rem] font-bold tracking-wide min-w-[260px]
+text-[var(--text-strong)] bg-[linear-gradient(145deg,rgba(24,28,40,0.9)_0%,rgba(34,40,56,0.88)_55%,rgba(55,38,64,0.84)_100%)] backdrop-blur-2xl border border-[var(--accent-soft)]/45 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[var(--accent-soft)]/45 active:scale-[.965] hover:border-[var(--accent-soft)]/70 hover:shadow-[0_20px_54px_-14px_rgba(0,0,0,0.88),0_0_0_1px_rgba(255,255,255,0.06)] ${extraClass}`;
+---
+<a href={href} class={base}>
+  <span class="relative flex items-center gap-3">
+    <span class="relative drop-shadow-[0_3px_6px_rgba(0,0,0,0.65)]">{label}</span>
+    <span class="opacity-60 group-hover:translate-x-2 group-hover:opacity-100 transition-transform">{icon}</span>
+  </span>
+</a>

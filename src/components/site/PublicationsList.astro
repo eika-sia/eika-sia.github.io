@@ -1,5 +1,5 @@
 ---
-import Card from '../site/Card.astro';
+import Card from './Card.astro';
 import publications from '../../data/publications.json';
 
 interface PublicationItem {
@@ -13,8 +13,6 @@ interface PublicationItem {
 }
 const pubs: PublicationItem[] = publications as PublicationItem[];
 ---
-
-<!-- Publications only (Awards & Skills intentionally removed) -->
 <div class="publications-stack px-1 sm:px-2">
   <div class="max-w-3xl mx-auto">
     {pubs.map(p => (
@@ -25,6 +23,5 @@ const pubs: PublicationItem[] = publications as PublicationItem[];
         <div class="text-sm text-slate-400 mono">Author{p.authors.length>1?'s':''}: {p.authors.join(', ')}</div>
       </Card>
     ))}
-    </div>
   </div>
 </div>

@@ -1,0 +1,24 @@
+[
+	{
+		"category": "Neuro / Research",
+		"items": ["EEG", "Signal Processing", "Neural Modeling", "Statistics"]
+	},
+	{
+		"category": "Systems / Hardware",
+		"items": ["FPGA", "Verilog", "RISC-V", "Embedded C"]
+	},
+	{ "category": "Software", "items": ["Python", "Rust", "Linux", "Astro"] },
+	{
+		"category": "Security",
+		"items": ["CTF", "Reverse Eng", "Binary Exploit", "Crypto"]
+	},
+	{
+		"category": "Other",
+		"items": [
+			"Team Lead",
+			"Technical Writing",
+			"Collaboration",
+			"Mentoring"
+		]
+	}
+]

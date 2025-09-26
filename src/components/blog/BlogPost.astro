@@ -49,8 +49,6 @@ const duplicateTitleHeading = rawHeadings[0] && rawHeadings[0].depth === 1 && ra
 .duplicate-heading-hidden .md-article h1:first-of-type { display: none; }
 .md-article pre { @apply border bg-slate-900/80 rounded-lg shadow-md shadow-black/30; border-color: var(--border-color); }
 .md-article code:not(pre code) { @apply bg-slate-800/70 px-1.5 py-0.5 rounded; }
-.md-article .heading-anchor { @apply opacity-0 ml-2 text-violet-400 transition; }
-.md-article h2:hover .heading-anchor, .md-article h3:hover .heading-anchor { @apply opacity-100; }
 .md-article h2 { @apply mt-14 mb-4 text-2xl font-semibold tracking-tight; }
 .md-article h3 { @apply mt-10 mb-3 text-xl font-semibold tracking-tight; }
 .md-article h4 { @apply mt-8 mb-2 text-lg font-semibold tracking-tight; }

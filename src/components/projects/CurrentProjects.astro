@@ -31,7 +31,8 @@ const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: Collection
     : category === 'hardware'
       ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
       : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
-  return { id: p.id, data: p.data, tags, collaborators, status, category, categoryClasses };
+  const derivedSlug = (p.data as any).slug || p.id.replace(/\.md$/, '');
+  return { id: p.id, data: { ...p.data, slug: derivedSlug } as any, tags, collaborators, status, category, categoryClasses };
 });
 ---
 
@@ -52,7 +53,7 @@ const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: Collection
           <span class={`px-3 py-2 rounded text-sm mono ${project.categoryClasses}`}>
             {project.category}
           </span>
-          <a href={`/projects/${project.data.slug || project.id}`} class="text-violet-400 hover:text-violet-300 text-sm">
+          <a href={`/projects/${(project.data as any).slug}`} class="text-violet-400 hover:text-violet-300 text-sm" style="margin-left: 10px;">
             View Details →
           </a>
         </div>

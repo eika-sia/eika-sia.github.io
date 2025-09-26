@@ -3,7 +3,8 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
+// Heading anchor autolinking removed intentionally (was previously using rehype-autolink-headings)
+// We keep rehype-slug so headings still get IDs for potential manual linking.
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,22 +13,7 @@ export default defineConfig({
 	integrations: [tailwind()],
 	markdown: {
 		remarkPlugins: [remarkGfm],
-		rehypePlugins: [
-			rehypeSlug,
-			[
-				rehypeAutolinkHeadings,
-				{
-					behavior: "append",
-					properties: { class: "heading-anchor" },
-					content: {
-						type: "element",
-						tagName: "span",
-						properties: { class: "anchor-symbol" },
-						children: [{ type: "text", value: "¶" }],
-					},
-				},
-			],
-		],
+		rehypePlugins: [rehypeSlug],
 		shikiConfig: {
 			theme: "one-dark-pro",
 			wrap: true,

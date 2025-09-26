@@ -1,0 +1,24 @@
+[
+	{
+		"title": "Moore Machine Architecture on Multi-layer Hopfield Networks",
+		"description": "A different perspective of sequential memory in humans",
+		"venueType": "Conference",
+		"venue": "Sixth International Conference of Mathematics of Neuroscience and AI",
+		"year": 2025,
+		"tags": ["neural-networks", "memory", "cognitive-architecture"],
+		"authors": ["Goran Ivančić"]
+	},
+	{
+		"title": "Biological Neural Machines",
+		"description": "Creating a Computer on Biologically Restrained Neural Networks",
+		"venueType": "Course",
+		"venue": "IRCN and Chen Institute Joint Course on Neuro-inspired Computation",
+		"year": 2025,
+		"tags": [
+			"neural-computing",
+			"biophysics",
+			"computational-neuroscience"
+		],
+		"authors": ["Goran Ivančić"]
+	}
+]

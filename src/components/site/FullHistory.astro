@@ -2,6 +2,10 @@
 import HistoryItem from './HistoryItem.astro';
 import experienceData from '../../data/experience.json';
 import interests from '../../data/interests.json';
+import achievements from '../../data/achievements.json';
+import SectionHeader from './SectionHeader.astro';
+import skillsData from '../../data/skills.json';
+import languagesData from '../../data/languages.json';
 
 interface ExperienceItem {
   position: string;
@@ -13,61 +17,113 @@ interface ExperienceItem {
   description: string[];
 }
 
-const work: ExperienceItem[] = experienceData as ExperienceItem[];
+const work: ExperienceItem[] = (experienceData as ExperienceItem[]).map(item => {
+  // Light normalization: if end is not 'Present' and bullet starts with present tense verb (basic heuristic), append 'ed' for display copy (non-destructive)
+  const needsPast = !/Present/i.test(item.end);
+  const normalizedDesc = item.description.map(line => {
+    if (!needsPast) return line; // keep ongoing roles as-is
+    // If already ends with 'ed' or contains 'was'/'were' skip
+    if (/\b(was|were)\b|ed\b/.test(line)) return line;
+    // Simple heuristic: convert leading verb if in a small whitelist
+    const verbMap: Record<string,string> = { 'Develop': 'Developed', 'Prepare': 'Prepared', 'Conduct': 'Conducted', 'Handle': 'Handled', 'Tutor': 'Tutored', 'Assist': 'Assisted', 'Learn': 'Learned' };
+    return line.replace(/^(\w+)(\b)/, (m, v, b) => verbMap[v] ? verbMap[v] + b : line);
+  });
+  return { ...item, description: normalizedDesc };
+});
 const researchInterests: string[] = (interests as any).research || [];
 const techInterests: string[] = (interests as any).technology || [];
 const creativeInterests: string[] = (interests as any).creative || [];
+interface SkillGroup { category: string; items: string[] }
+const skillGroups: SkillGroup[] = skillsData as SkillGroup[];
+interface LanguageItem { language: string; level: string }
+const languages: LanguageItem[] = languagesData as LanguageItem[];
+interface AchievementItem { title: string; year: number; detail?: string; }
+const achievementList: AchievementItem[] = (achievements as AchievementItem[]).slice().sort((a,b)=> b.year - a.year);
 ---
 
-<div class="space-y-8">
-  <!-- Work Experience -->
-  <section aria-labelledby="work-exp" class="space-y-6">
-    <h3 id="work-exp" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Work Experience</h3>
-    <div class="grid gap-6 md:grid-cols-2">
+<div class="space-y-24">
+  <!-- Achievements / Highlights Section -->
+  <section class="cv-section space-y-10" aria-labelledby="achievements">
+    <SectionHeader title="Selected Highlights" folder="highlights" variant="bar" sub="Representative recognitions & milestone participations." />
+    <ul class="space-y-6 first-card-gap">
+      {achievementList.map(a => (
+        <li class="exp-card">
+          <div class="flex items-start justify-between gap-6">
+            <div class="flex-1">
+              <div class="exp-title text-base md:text-lg">{a.title}</div>
+              {a.detail && <p class="text-sm text-slate-300 mt-2 leading-relaxed">{a.detail}</p>}
+            </div>
+            <div class="text-xs mono text-slate-500 shrink-0 mt-1">{a.year}</div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="cv-section space-y-10" aria-labelledby="exp">
+    <SectionHeader title="Experience" folder="work" variant="bar" sub="Selected academic, research & industry roles." />
+    <div class="exp-grid">
       {work.map((exp: ExperienceItem) => (
-        <HistoryItem
-          title={exp.position}
-          org={exp.organization}
-          location={exp.location}
-          start={exp.start}
-          end={exp.end}
-          type={exp.type}
-          bullets={exp.description}
-        />
+        <div class="exp-card">
+          <div class="exp-org">{exp.organization}</div>
+          <div class="exp-title">{exp.position}</div>
+          <div class="exp-meta">
+            <span>{exp.location}</span>
+            <span>{exp.start} – {exp.end}</span>
+            <span>{exp.type}</span>
+          </div>
+          <ul class="exp-bullets">
+            {exp.description.slice(0,4).map(line => (<li>{line}</li>))}
+          </ul>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- Research & Technology Interests -->
-  <section aria-labelledby="interests" class="space-y-4">
-    <h3 id="interests" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Research & Technology Interests</h3>
-    <div class="grid gap-6 md:grid-cols-2">
-      <div class="rounded-2xl border border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.38)] backdrop-blur-md p-6">
-        <h4 class="text-[var(--accent-soft)] font-medium mb-3 text-sm tracking-wide uppercase">Neuroscience</h4>
-        <ul class="text-slate-300 text-sm space-y-1">
-          {researchInterests.map(item => (
-            <li class="flex gap-2 items-start"><span class="text-[var(--accent-soft)] mt-1">•</span><span>{item}</span></li>
-          ))}
-        </ul>
-      </div>
-      <div class="rounded-2xl border border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.38)] backdrop-blur-md p-6">
-        <h4 class="text-[var(--accent-soft)] font-medium mb-3 text-sm tracking-wide uppercase">Technology</h4>
-        <ul class="text-slate-300 text-sm space-y-1">
-          {techInterests.map(item => (
-            <li class="flex gap-2 items-start"><span class="text-[var(--accent-soft)] mt-1">•</span><span>{item}</span></li>
-          ))}
-        </ul>
+  <!-- Skills Section -->
+  <section class="cv-section space-y-10" aria-labelledby="skills">
+    <SectionHeader title="Skills & Tooling" folder="skills" variant="bar" sub="Core technical, research and complementary competencies." />
+    <div class="skill-groups">
+      {skillGroups.map(group => (
+        <div class="skill-group">
+          <h4>{group.category}</h4>
+          <div class="skill-chips">
+            {group.items.map(s => (<span class="skill-chip">{s}</span>))}
+          </div>
+        </div>
+      ))}
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="skill-chips">
+          {languages.map(l => (<span class="skill-chip">{l.language} {l.level}</span>))}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Creative Interests -->
-  <section aria-labelledby="creative" class="space-y-4">
-    <h3 id="creative" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Creative Hobbies</h3>
-    <div class="flex flex-wrap gap-3">
-      {creativeInterests.map(hobby => (
-        <span class="bg-slate-800/40 border border-[var(--accent-soft)]/25 text-[var(--accent-soft)] px-4 py-2 rounded-lg text-sm">{hobby}</span>
-      ))}
+  <!-- Interests & Hobbies Section -->
+  <section class="cv-section space-y-10" aria-labelledby="misc">
+    <SectionHeader title="Interests & Hobbies" folder="misc" variant="bar" sub="Active research themes, tech curiosities & creative outlets." />
+    <div class="interest-groups">
+      <div class="interest-group">
+        <div class="interest-label">Research</div>
+        <div class="interest-chips">
+          {researchInterests.map(item => (<span class="interest-chip">{item}</span>))}
+        </div>
+      </div>
+      <div class="interest-group">
+        <div class="interest-label">Technology</div>
+        <div class="interest-chips">
+          {techInterests.map(item => (<span class="interest-chip">{item}</span>))}
+        </div>
+      </div>
+      <div class="interest-group">
+        <div class="interest-label">Creative</div>
+        <div class="interest-chips">
+          {creativeInterests.map(hobby => (<span class="interest-chip">{hobby}</span>))}
+        </div>
+      </div>
     </div>
   </section>
 </div>
