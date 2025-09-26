@@ -1,5 +1,6 @@
 ---
 title: "FPGA as an External Linux Computer"
+slug: "fpga-linux-computer"
 date: "2025-05-01"
 status: "ongoing"
 tags: ["fpga", "linux", "embedded", "hardware"]

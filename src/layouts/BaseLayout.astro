@@ -8,25 +8,22 @@ import '../styles/global.css';
     <title>Goran Ivančić | Neuroscientist & Computer Engineer</title>
     <meta name="description" content="Exploring the intersection of human cognition and technology through neuroscience research, cybersecurity challenges, and psychological understanding.">
   </head>
-  <body class="bg-slate-900 text-slate-200 min-h-screen">
+  <body class="min-h-screen smooth-colors">
     <!-- Navigation Header -->
-    <nav class="max-w-4xl mx-auto px-4 py-6">
-      <div class="flex items-center justify-between">
-        <a href="/" class="text-xl font-bold text-slate-100 hover:text-violet-300 transition-colors">
-          Goran Ivančić
-        </a>
-        <div class="flex gap-6 text-sm">
-          <a href="/blog" class="text-slate-300 hover:text-violet-300 transition-colors">Blog</a>
-          <a href="/projects" class="text-slate-300 hover:text-violet-300 transition-colors">Projects</a>
-          <a href="/cv" class="text-slate-300 hover:text-violet-300 transition-colors">CV</a>
-        </div>
+    <nav class="max-w-7xl mx-auto px-6 md:px-10 py-6 flex items-center justify-between">
+      <a href="/" class="text-xl font-semibold tracking-tight text-slate-100 hover:text-[var(--accent)] transition-colors">homepage</a>
+      <div class="flex items-center gap-6 text-sm">
+        <a href="/blog" class="text-slate-300 hover:text-[var(--accent)] transition-colors">Blog</a>
+        <a href="/projects" class="text-slate-300 hover:text-[var(--accent)] transition-colors">Projects</a>
+        <a href="/cv" class="text-slate-300 hover:text-[var(--accent)] transition-colors">CV</a>
       </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-4 pb-8">
-      <div class="bg-slate-800/40 backdrop-blur-sm rounded-lg border border-violet-500/20 p-8 shadow-2xl shadow-violet-500/5">
+    <main class="max-w-7xl mx-auto px-6 md:px-12 pb-24">
+      <div class="panel px-10 md:px-16 py-16 md:py-20 space-y-28 smooth-colors">
         <slot />
       </div>
     </main>
+  <!-- Theme switching removed; locked to modern blue / purple / pink palette -->
   </body>
 </html>

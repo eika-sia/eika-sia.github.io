@@ -1,5 +1,6 @@
 ---
 title: "Neural Computer Architecture"
+slug: "neural-computer-architecture"
 date: "2025-02-15"
 status: "ongoing"
 tags: ["neural-computing", "architecture", "synaptic-plasticity", "memory"]

@@ -1,10 +1,11 @@
 ---
 const { progress = 0 }: { progress?: number } = Astro.props;
-const percentage = Math.round(progress * 100);
-const isComplete = percentage === 100;
+const pct = Math.round(progress * 100);
 ---
 
-<div class="flex justify-between items-center mt-1 text-xs">
-  {isComplete && <span class="text-green-500 mono">Complete</span>}
-  {!isComplete && <span class="text-yellow-500 mono">In Progress - {percentage}%</span>}
+<div class="mt-4 space-y-1">
+  <div class="h-2 w-full rounded-full bg-slate-700/40 overflow-hidden">
+    <div class="h-full rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent-soft)]" style={`width:${pct}%`}></div>
+  </div>
+  <div class="text-xs mono text-slate-500">{pct}%</div>
 </div>

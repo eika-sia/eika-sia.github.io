@@ -1,6 +1,9 @@
 ---
-const { progress } = Astro.props;
+// Deprecated duplicate component. Use `src/components/site/ProgressBar.astro` instead.
+if (import.meta.env.DEV) {
+  console.warn('[Deprecated] Import site/ProgressBar.astro instead of components/ProgressBar.astro');
+}
+throw new Error('Deprecated component: use site/ProgressBar.astro');
 ---
-<div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-  <div class="bg-blue-600 h-2.5 rounded-full" style={`width: ${progress * 100}%`}></div>
-</div>
+
+<!-- Intentionally left blank: this file exists only to prevent accidental imports. -->

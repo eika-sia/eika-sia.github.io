@@ -1,4 +1,8 @@
 ---
+import HistoryItem from './HistoryItem.astro';
+import experienceData from '../../data/experience.json';
+import interests from '../../data/interests.json';
+
 interface ExperienceItem {
   position: string;
   organization: string;
@@ -9,83 +13,61 @@ interface ExperienceItem {
   description: string[];
 }
 
-import experienceData from '../../data/experience.json';
-
-const typedExperienceData: ExperienceItem[] = experienceData;
+const work: ExperienceItem[] = experienceData as ExperienceItem[];
+const researchInterests: string[] = (interests as any).research || [];
+const techInterests: string[] = (interests as any).technology || [];
+const creativeInterests: string[] = (interests as any).creative || [];
 ---
 
 <div class="space-y-8">
   <!-- Work Experience -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-100 mb-6 border-l-2 border-violet-500 pl-3">Work Experience</h3>
-    <div class="space-y-6">
-      {typedExperienceData.map((exp: ExperienceItem) => (
-        <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6 hover:border-violet-400/40 transition-all">
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex-1">
-              <h4 class="text-lg font-semibold text-slate-100 mb-1">{exp.position}</h4>
-              <p class="text-violet-400 text-sm mb-1">{exp.organization}</p>
-              <p class="text-slate-400 text-xs">{exp.location}</p>
-            </div>
-            <div class="text-right text-sm text-slate-400 ml-4">
-              <div class="mono">{exp.start} - {exp.end}</div>
-              <span class={`px-2 py-1 rounded text-xs mono mt-1 inline-block ${
-                exp.type === 'ongoing' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
-                exp.type === 'academic' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                exp.type === 'volunteer' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
-                'bg-violet-500/20 text-violet-400 border border-violet-500/30'
-              }`}>
-                {exp.type}
-              </span>
-            </div>
-          </div>
-          <ul class="space-y-1 text-slate-300 text-sm">
-            {exp.description.map((item: string) => (
-              <li class="flex items-start gap-2">
-                <span class="text-violet-400 mt-1">•</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+  <section aria-labelledby="work-exp" class="space-y-6">
+    <h3 id="work-exp" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Work Experience</h3>
+    <div class="grid gap-6 md:grid-cols-2">
+      {work.map((exp: ExperienceItem) => (
+        <HistoryItem
+          title={exp.position}
+          org={exp.organization}
+          location={exp.location}
+          start={exp.start}
+          end={exp.end}
+          type={exp.type}
+          bullets={exp.description}
+        />
       ))}
     </div>
-  </div>
+  </section>
 
-  <!-- Research Interests -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-100 mb-6 border-l-2 border-violet-500 pl-3">Research Interests</h3>
-    <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6">
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="space-y-2">
-          <div class="text-violet-400 font-semibold">Neuroscience</div>
-          <ul class="text-slate-300 text-sm space-y-1">
-            <li>• Local neural dynamics</li>
-            <li>• Spatial cognition</li>
-            <li>• Dendritic computation</li>
-          </ul>
-        </div>
-        <div class="space-y-2">
-          <div class="text-violet-400 font-semibold">Technology</div>
-          <ul class="text-slate-300 text-sm space-y-1">
-            <li>• Computer architecture</li>
-            <li>• Cryptography</li>
-            <li>• Neural computing</li>
-          </ul>
-        </div>
+  <!-- Research & Technology Interests -->
+  <section aria-labelledby="interests" class="space-y-4">
+    <h3 id="interests" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Research & Technology Interests</h3>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-2xl border border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.38)] backdrop-blur-md p-6">
+        <h4 class="text-[var(--accent-soft)] font-medium mb-3 text-sm tracking-wide uppercase">Neuroscience</h4>
+        <ul class="text-slate-300 text-sm space-y-1">
+          {researchInterests.map(item => (
+            <li class="flex gap-2 items-start"><span class="text-[var(--accent-soft)] mt-1">•</span><span>{item}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-2xl border border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.38)] backdrop-blur-md p-6">
+        <h4 class="text-[var(--accent-soft)] font-medium mb-3 text-sm tracking-wide uppercase">Technology</h4>
+        <ul class="text-slate-300 text-sm space-y-1">
+          {techInterests.map(item => (
+            <li class="flex gap-2 items-start"><span class="text-[var(--accent-soft)] mt-1">•</span><span>{item}</span></li>
+          ))}
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Creative Interests -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-100 mb-6 border-l-2 border-violet-500 pl-3">Creative Hobbies</h3>
+  <section aria-labelledby="creative" class="space-y-4">
+    <h3 id="creative" class="text-xl font-semibold text-slate-100 mb-2 border-l-2 border-violet-500 pl-3">Creative Hobbies</h3>
     <div class="flex flex-wrap gap-3">
-      {["Writing", "Dungeons & Dragons", "Drawing"].map((hobby) => (
-        <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 px-4 py-2 rounded-lg text-sm">
-          {hobby}
-        </span>
+      {creativeInterests.map(hobby => (
+        <span class="bg-slate-800/40 border border-[var(--accent-soft)]/25 text-[var(--accent-soft)] px-4 py-2 rounded-lg text-sm">{hobby}</span>
       ))}
     </div>
-  </div>
+  </section>
 </div>

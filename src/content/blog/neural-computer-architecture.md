@@ -1,5 +1,6 @@
 ---
 title: "Neural Computer Architecture: Bridging Biology and Technology"
+slug: "neural-computer-architecture"
 date: "2025-02-15"
 tags: ["neural-computing", "biophysics", "architecture", "research"]
 description: "Exploring how biological neural networks can inspire computational architectures"

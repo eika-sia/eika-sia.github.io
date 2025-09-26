@@ -1,4 +1,8 @@
 ---
+import ProgressBar from '../site/ProgressBar.astro';
+import HistoryItem from './HistoryItem.astro';
+import educationData from '../../data/education.json';
+
 interface EducationItem {
   institution: string;
   location: string;
@@ -12,44 +16,44 @@ interface EducationItem {
   coursework: string[];
 }
 
-import educationData from '../../data/education.json';
-import ProgressBar from '../site/ProgressBar.astro';
-
-const typedEducationData: EducationItem[] = educationData;
+const educations: EducationItem[] = educationData as EducationItem[];
 ---
 
 <div class="space-y-10">
-  {typedEducationData.map((edu: EducationItem) => (
-    <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-8 hover:border-violet-400/40 transition-all">
-      <div class="flex items-start justify-between mb-6">
-        <div class="flex-1">
-          <h3 class="text-xl font-semibold text-slate-100 mb-2">{edu.degree}</h3>
-          <p class="text-violet-400 text-base mb-3">{edu.institution}</p>
-          <p class="text-slate-400 text-sm">{edu.location}</p>
+  {educations.map((edu: EducationItem) => {
+    const progress = Math.min(1, edu.ects / (edu.ectsTotal || 1));
+    return (
+      <HistoryItem
+        title={edu.degree}
+        org={edu.institution}
+        location={edu.location}
+        start={edu.start}
+        end={edu.end}
+        type="academic"
+      >
+        <div class="mt-5 space-y-5">
+          <div>
+            <ProgressBar progress={progress} />
+            <div class="flex justify-between text-[10px] mono text-slate-500 mt-1">
+              <span>{Math.round(progress * 100)}%</span>
+              <span>{edu.ects} / {edu.ectsTotal} ECTS</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+              <span class="text-[var(--accent-soft)] font-semibold">Focus:</span> {edu.focus}
+              <span class="ml-3 text-slate-500 text-xs">GPA {edu.gpa}</span>
+            </p>
+            {edu.coursework.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {edu.coursework.map((course: string) => (
+                  <span class="badge !text-[10px] md:!text-[11px] tracking-wide opacity-90">{course}</span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-        <div class="text-right text-sm text-slate-400 ml-6">
-          <div class="mono text-base">{edu.start} - {edu.end}</div>
-          <div class="text-violet-400 mt-1">GPA: {edu.gpa}</div>
-          <div class="text-slate-500">{edu.ectsTotal} ECTS</div>
-        </div>
-      </div>
-      
-      <div class="mt-6">
-        <ProgressBar progress={edu.ects/edu.ectsTotal} />
-      </div>
-
-      <div class="mb-6">
-        <p class="text-slate-300 text-base mb-4">
-          <span class="text-violet-400 font-semibold">Research focus:</span> {edu.focus}
-        </p>
-        <div class="flex flex-wrap gap-3">
-          {edu.coursework.map((course: string) => (
-            <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 text-sm px-3 py-2 rounded mono">
-              {course}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  ))}
+      </HistoryItem>
+    );
+  })}
 </div>

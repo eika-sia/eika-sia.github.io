@@ -1,4 +1,9 @@
 ---
-const { title } = Astro.props;
+// Deprecated duplicate component. Use `src/components/site/SectionHeader.astro` instead.
+if (import.meta.env.DEV) {
+	console.warn('[Deprecated] Import site/SectionHeader.astro instead of components/SectionHeader.astro');
+}
+throw new Error('Deprecated component: use site/SectionHeader.astro');
 ---
-<h2 class="text-2xl font-bold mb-4 mt-8">{title}</h2>
+
+<!-- Stub to block usage of old path. -->

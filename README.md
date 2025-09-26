@@ -7,15 +7,15 @@ Built with [Astro](https://astro.build), styled with [Tailwind CSS](https://tail
 
 ## 🌐 Overview
 
-This is the personal website of Eika, featuring:
+Personal site + interactive CV. Focus areas:
 
--   Formal & informal education timeline
--   Passion projects (neuroscience, CTFs, music)
--   Current project tracking with progress bars
--   Highlighted blog & project previews
--   A downloadable CV and detailed profile
+-   Education timeline & progress
+-   Neuroscience + hardware/software side projects
+-   Current project tracking (progress bars)
+-   Publications section
+-   Blog & project detail pages
 
-Content is handled entirely via Markdown files. Astro dynamically renders content into clean, modular components styled with Tailwind.
+All content is Markdown (no CMS). Astro builds static pages using small, composable UI components with a single dark glass aesthetic.
 
 ---
 
@@ -31,31 +31,22 @@ No backend, no CMS. All content is edited directly in the repo.
 
 ---
 
-## 📁 Folder Structure
+## 📁 Folder Structure (simplified)
 
 ```
-eikasia/
-├── public/                  # Static assets (e.g. favicon, images)
-├── src/
-│   ├── components/          # UI Components (Card.astro, ProgressBar.astro, etc.)
-│   ├── layouts/             # Layout wrappers (e.g., BaseLayout.astro)
-│   ├── pages/               # Pages and routes
-│   │   ├── index.astro      # Homepage
-│   │   ├── blog/[slug].astro
-│   │   ├── projects/[slug].astro
-│   │   ├── blog.astro       # Blog listing
-│   │   ├── projects.astro   # Project listing
-│   │   └── cv.astro         # Full CV
-│   ├── content/
-│   │   ├── blog/*.md
-│   │   └── projects/*.md
-│   └── data/
-│       └── education.json   # For ECTS or phase data
-├── tailwind.config.mjs
-├── astro.config.mjs
-├── package.json
-└── README.md
+src/
+    components/
+        site/          # Core UI primitives (Card, SectionHeader, ProgressBar, etc.)
+        projects/      # Project-related views (Highlights, ProjectPage, lists)
+        blog/          # BlogPost renderer
+    layouts/         # BaseLayout wrapper
+    pages/           # Astro routes (index, blog, projects, cv + dynamic [slug])
+    content/         # Markdown collections (blog, projects)
+    data/            # JSON data (education.json)
+public/            # Static assets + CNAME
 ```
+
+Removed legacy duplicate components (old Card/ProgressBar/SectionHeader + unused ProjectHighlights & BlogList) to avoid ambiguity.
 
 ---
 
@@ -63,21 +54,16 @@ eikasia/
 
 ### 🏠 Homepage (`/`)
 
--   Hero section: name, tagline, contact links (email, GitHub, etc.)
--   **Formal education**: Timeline or progress bar using `education.json` (ECTS or phases)
--   **Informal learning**:
+-   Hero: name, tagline, contact links
+-   Education progression
+-   Current projects (with progress)
+-   Selected publications
 
-    -   Projects in neuroscience, reverse engineering, CTFs
-    -   Music and fun art
-
--   **Current Projects**: 2-sentence summary + progress bar (defined in frontmatter)
--   **Highlights**: 3 blog cards + 3 project cards
-
-### 📄 Detailed CV Page (`/cv`)
+### 📄 CV Page (`/cv`)
 
 -   Contact info
--   Full academic and professional history
--   Downloadable CVs (PDF format, in `/public`)
+-   Full history (education + experience)
+-   Downloadable CVs (PDFs in `/public`)
 
 ### 📚 Blog (`/blog` and `/blog/[slug]`)
 
@@ -90,16 +76,10 @@ eikasia/
     -   Tags
     -   Read time
 
-### 🧪 Projects (`/projects` and `/projects/[slug]`)
+### 🧪 Projects (`/projects` + dynamic pages)
 
--   Cards showing:
-
-    -   Title
-    -   Short description
-    -   Tags
-    -   Progress bar (optional)
-
--   Full page per project
+-   Listing: title, description, tags, optional progress
+-   Per-project detail pages via `[slug]`
 
 ### 🔍 Markdown Frontmatter Example
 
@@ -124,14 +104,14 @@ This project explores basic spiking neuron behavior using Hodgkin-Huxley models.
 
 ## 🧩 UI Components
 
-Modular and styled with Tailwind:
+Core (in `src/components/site`):
 
--   `Card.astro` - used for blog/project previews
--   `ProgressBar.astro` - used in project summaries and current progress section
--   `SectionHeader.astro` - reusable title/heading block
--   `Layout.astro` - base layout
--   Mobile-first design
--   Soft shadows, big font, minimalist structure
+-   `Card.astro` – glass panel card (projects, publications, education)
+-   `ProgressBar.astro` – gradient fill for progress metrics
+-   `SectionHeader.astro` – terminal-inspired section heading (supports variants)
+-   `BaseLayout.astro` (in `layouts/`) – global shell & navigation
+
+Design: single dark/glass aesthetic, subtle gradients, no theme toggle.
 
 ---
 
@@ -147,13 +127,12 @@ eikasia.net
 
 ---
 
-## 📦 Future Functionality Ideas (Optional Enhancements)
+## 📦 Possible Future Enhancements
 
--   [ ] Add RSS feed from blog posts
--   [ ] Add theme toggle (light/dark mode)
--   [ ] Search bar for blog/projects
--   [ ] Timeline component for education
--   [ ] Basic tagging system and filter view
+-   [ ] RSS feed
+-   [ ] Tag filtering
+-   [ ] Search (client-side fuzzy)
+-   [ ] Feed generation for projects
 
 ---
 

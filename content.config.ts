@@ -17,8 +17,10 @@ const projects = defineCollection({
 		date: z.string(),
 		description: z.string(),
 		slug: z.string(),
-		tags: z.array(z.string()),
+		tags: z.array(z.string()).default([]),
 		progress: z.number().optional(),
+		status: z.string().optional(), // e.g. 'ongoing', 'completed'
+		collaborators: z.array(z.string()).default([]),
 	}),
 });
 

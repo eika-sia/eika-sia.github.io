@@ -1,16 +1,18 @@
 ---
 title: "Spatial Cognition and Information Transfer"
+slug: "spatial-cognition-transfer"
 date: "2024-07-01"
 status: "ongoing"
 tags:
-    [
-        "spatial-cognition",
-        "neural-recording",
-        "information-transfer",
-        "neuroscience",
-    ]
+[
+"spatial-cognition",
+"neural-recording",
+"information-transfer",
+"neuroscience",
+]
 collaborators: ["Independent Project"]
 description: "Analysis of population-level neural activity in spatial representation context, exploring possibilities of direct information transfer via simultaneous recording and stimulation."
+
 ---
 
 # Understanding Spatial Cognition and Information Transfer Among Humans

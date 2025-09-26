@@ -1,14 +1,40 @@
 ---
-const { title = "" }: { title?: string } = Astro.props;
-const { folder = "" }: { folder?: string} = Astro.props;
+interface Props {
+  title?: string;
+  folder?: string;
+  command?: string; // override the default shell-like prompt
+  showPrompt?: boolean; // allow hiding
+  variant?: 'bar' | 'pill';
+  sub?: string; // subtitle / description
+}
+const {
+  title = "",
+  folder = "",
+  command,
+  showPrompt = true,
+  variant = 'bar',
+  sub = ""
+} = Astro.props as Props;
+// Default command semantics:
+// If a folder is provided we show something akin to: `for f in $(ls ~/folder | head -n 3); do cat "$f"; done` simplified visually.
+// To keep it concise we render: `head ~/folder/*` when folder present, else just a `$` prompt.
+const prompt = command || (folder ? `head ~/${folder}/*` : 'echo');
 ---
-<div class="mb-12">
-  <div class="flex items-center gap-3 mb-4">
-    <span class="text-violet-400 mono text-lg">$</span>
-    <span class="text-slate-500 mono text-base">ls ~/</span>
-    <span class="text-violet-400 mono text-lg">{folder}</span>
+<div class="space-y-5">
+  {showPrompt && (
+    <div class="flex items-center gap-2 text-xs tracking-wide">
+      <span class="mono text-[var(--accent-soft)]">$</span>
+      <span class="mono text-slate-500">{prompt}</span>
+    </div>
+  )}
+  <div class="flex flex-col gap-3">
+    <h2 class={`font-bold leading-tight text-slate-100 ${variant === 'pill' ? 'text-2xl md:text-3xl inline-flex items-center gap-3' : 'text-3xl md:text-4xl border-l-4 border-[var(--accent-soft)] pl-6'}`}>
+      {variant === 'pill' && (
+        <span class="px-3 py-1 rounded-full bg-[var(--panel)] border border-slate-600/30 text-[var(--accent-soft)] text-xs mono">section</span>
+      )}
+      {title}
+    </h2>
+    {sub && <p class="text-slate-400 text-sm max-w-prose">{sub}</p>}
+    {variant === 'bar' && <div class="h-px bg-gradient-to-r from-[var(--accent-soft)]/70 via-[var(--accent-soft)]/20 to-transparent" />}
   </div>
-  <h2 class="text-3xl font-bold mb-6 text-slate-100 border-l-4 border-violet-500 pl-6">
-    {title}
-  </h2>
 </div>

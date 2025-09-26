@@ -1,5 +1,6 @@
 ---
 title: "Building an Open-Source EEG System"
+slug: "building-open-source-eeg-system"
 date: "2025-06-20"
 tags: ["eeg", "biomedical", "hardware", "neuroscience", "python"]
 description: "Developing an accessible, low-cost EEG system using 3D printing and custom electronics"

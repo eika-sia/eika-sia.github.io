@@ -23,7 +23,7 @@ const sortedPosts = posts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"
             <span class="text-violet-400">{new Date(post.data.date).toLocaleDateString()}</span>
           </div>
           <div class="flex items-center justify-end">
-            <a href={`/blog/${post.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
+            <a href={`/blog/${post.data.slug || post.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
               Read Article →
             </a>
           </div>

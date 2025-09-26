@@ -30,15 +30,15 @@ const { Content } = await project.render();
         [{project.data.status.toUpperCase()}]
       </span>
     )}
-    {project.data.collaborators && (
+    {(project.data.collaborators && project.data.collaborators.length > 0) && (
       <div class="mt-2">
         <span class="text-violet-400 font-semibold">Collaborators:</span>{" "}
         {project.data.collaborators.join(", ")}
       </div>
     )}
-    {project.data.tags && (
+    {(project.data.tags && project.data.tags.length > 0) && (
       <div class="flex flex-wrap gap-2 mt-3">
-        {project.data.tags.map((tag: string) => (
+        {(project.data.tags || []).map((tag: string) => (
           <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 text-xs px-2 py-1 rounded mono">
             #{tag}
           </span>

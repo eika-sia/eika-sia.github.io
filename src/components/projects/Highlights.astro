@@ -2,10 +2,9 @@
 import Card from '../site/Card.astro';
 ---
 
+<!-- Publications only (Awards & Skills intentionally removed) -->
 <div class="space-y-12">
-  <!-- Publications Section -->
   <div>
-    <h3 class="text-2xl font-semibold text-slate-100 mb-8 border-l-4 border-violet-500 pl-6">Publications & Conferences</h3>
     <div class="space-y-8">
       <Card 
         title="Moore Machine Architecture on Multi-layer Hopfield Networks" 
@@ -16,7 +15,6 @@ import Card from '../site/Card.astro';
         </div>
         <div class="text-sm text-slate-400 mono">Author: Goran Ivančić</div>
       </Card>
-      
       <Card 
         title="Biological Neural Machines" 
         description="Creating a Computer on Biologically Restrained Neural Networks"
@@ -26,63 +24,6 @@ import Card from '../site/Card.astro';
         </div>
         <div class="text-sm text-slate-400 mono">Author: Goran Ivančić</div>
       </Card>
-    </div>
-  </div>
-
-  <!-- Awards Section -->
-  <div>
-    <h3 class="text-2xl font-semibold text-slate-100 mb-8 border-l-4 border-violet-500 pl-6">Awards & Recognition</h3>
-    <div class="grid gap-8 md:grid-cols-2">
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6 hover:border-violet-400/40 transition-all">
-        <h4 class="font-semibold text-slate-100 mb-3 text-lg">Fifth Place - Cybersecurity Competition</h4>
-        <p class="text-slate-300 text-base mb-3">Conference challenge</p>
-        <div class="text-sm text-violet-400 mono">June 2025</div>
-      </div>
-      
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6 hover:border-violet-400/40 transition-all">
-        <h4 class="font-semibold text-slate-100 mb-3 text-lg">Fourth Place - Hackultet</h4>
-        <p class="text-slate-300 text-base mb-3">National Cybersecurity Competition</p>
-        <div class="text-sm text-violet-400 mono">May 2025</div>
-      </div>
-      
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6 hover:border-violet-400/40 transition-all">
-        <h4 class="font-semibold text-slate-100 mb-3 text-lg">Top 5% High School Graduate</h4>
-        <p class="text-slate-300 text-base mb-3">Mathematics and Physics, Croatia</p>
-        <div class="text-sm text-violet-400 mono">2024</div>
-      </div>
-      
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6 hover:border-violet-400/40 transition-all">
-        <h4 class="font-semibold text-slate-100 mb-3 text-lg">First Prize - Informatics</h4>
-        <p class="text-slate-300 text-base mb-3">First Lego League - Judges' Award</p>
-        <div class="text-sm text-violet-400 mono">Academic Excellence</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Skills Section -->
-  <div>
-    <h3 class="text-2xl font-semibold text-slate-100 mb-8 border-l-4 border-violet-500 pl-6">Skills & Expertise</h3>
-    <div class="grid gap-8 md:grid-cols-2">
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6">
-        <h4 class="text-violet-400 font-semibold mb-4 text-lg">Programming Languages</h4>
-        <div class="flex flex-wrap gap-3">
-          {["Python", "C/C++", "MATLAB", "HTML/CSS/JS", "Java", "VHDL"].map((lang) => (
-            <span class="bg-slate-800/50 border border-violet-500/30 text-violet-400 text-sm px-3 py-2 rounded mono">
-              {lang}
-            </span>
-          ))}
-        </div>
-      </div>
-      
-      <div class="bg-slate-700/30 border border-violet-500/20 rounded-lg p-6">
-        <h4 class="text-violet-400 font-semibold mb-4 text-lg">Languages</h4>
-        <div class="space-y-2 text-base text-slate-300">
-          <div><span class="text-violet-400">Croatian:</span> Native</div>
-          <div><span class="text-violet-400">English:</span> C1</div>
-          <div><span class="text-violet-400">German:</span> A1</div>
-          <div><span class="text-violet-400">Japanese:</span> N4 (A2)</div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

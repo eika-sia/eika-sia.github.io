@@ -1,5 +1,6 @@
 ---
 title: "Open-Source Low-Cost EEG System"
+slug: "eeg-system"
 date: "2025-06-01"
 status: "ongoing"
 tags: ["eeg", "biomedical", "python", "3d-printing"]

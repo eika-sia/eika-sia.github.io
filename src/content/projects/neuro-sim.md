@@ -1,5 +1,6 @@
 ---
 title: "Impact of Dendritic Structures on Neural Processing"
+slug: "neuro-sim"
 date: "2025-05-15"
 status: "ongoing"
 tags: ["neuroscience", "dendrites", "biophysics", "cognition"]

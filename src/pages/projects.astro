@@ -3,9 +3,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from "astro:content";
 import Card from '../components/site/Card.astro';
 
-const projects = await getCollection("projects");
-// Sort by date (newest first)
-const sortedProjects = projects.sort((a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const rawProjects = await getCollection("projects");
+interface NormalizedProject {
+  id: string;
+  data: CollectionEntry<"projects">['data'];
+  tags: string[];
+  collaborators: string[];
+  status?: string;
+  category: string;
+  categoryClasses: string;
+}
+// Sort by date (newest first) then map to normalized shape used in template
+const sortedProjects: NormalizedProject[] = rawProjects
+  .sort((a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map((p: CollectionEntry<"projects">) => {
+    const tags: string[] = Array.isArray(p.data.tags) ? p.data.tags : [];
+    const collaborators: string[] = Array.isArray(p.data.collaborators) ? p.data.collaborators : [];
+    const status = p.data.status as string | undefined;
+    const category = tags.includes('research') ? 'research' : (tags.includes('hardware') ? 'hardware' : 'project');
+    const categoryClasses = category === 'research'
+      ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+      : category === 'hardware'
+        ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+        : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
+    return { id: p.id, data: p.data, tags, collaborators, status, category, categoryClasses };
+  });
 ---
 
 <BaseLayout>
@@ -17,25 +39,22 @@ const sortedProjects = projects.sort((a: CollectionEntry<"projects">, b: Collect
     </p>
     
     <div class="grid gap-8 md:grid-cols-2">
-      {sortedProjects.map((project: CollectionEntry<"projects">) => (
-        <Card title={project.data.title} description={project.data.description} tags={project.data.tags}>
+  {sortedProjects.map((project: NormalizedProject) => (
+        <Card title={project.data.title} description={project.data.description} tags={project.tags}>
           <div class="text-xs text-slate-400 mb-3 mono">
-            <span class="text-violet-400">[{project.data.status.toUpperCase()}]</span>
+            {project.status && <span class="text-violet-400">[{project.status.toUpperCase()}]</span>}
             <span class="ml-2">{project.data.date}</span>
           </div>
           <div class="text-sm text-slate-300 mb-4">
-            <span class="text-violet-400 font-semibold">Collaborators:</span> {project.data.collaborators.join(", ")}
+            {project.collaborators.length > 0 && <>
+            <span class="text-violet-400 font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
+            </>}
           </div>
           <div class="flex items-center justify-between">
-            <span class={`px-2 py-1 rounded text-xs mono ${
-              project.data.tags.includes('research') ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-              project.data.tags.includes('hardware') ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
-              'bg-violet-500/20 text-violet-400 border border-violet-500/30'
-            }`}>
-              {project.data.tags.includes('research') ? 'research' : 
-               project.data.tags.includes('hardware') ? 'hardware' : 'project'}
+            <span class={`px-2 py-1 rounded text-xs mono ${project.categoryClasses}`}>
+              {project.category}
             </span>
-            <a href={`/projects/${project.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
+            <a href={`/projects/${project.data.slug || project.id}`} class="bg-slate-700/50 border border-violet-500/30 px-4 py-2 rounded hover:border-violet-400/50 hover:bg-slate-600/50 transition-all text-violet-400 hover:text-violet-300 text-sm">
               View Details →
             </a>
           </div>

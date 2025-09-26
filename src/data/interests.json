@@ -1,0 +1,15 @@
+{
+	"research": [
+		"Local neural dynamics",
+		"Spatial cognition",
+		"Dendritic computation",
+		"Neural memory architectures"
+	],
+	"technology": [
+		"Computer architecture",
+		"Cryptography",
+		"Neural computing",
+		"FPGA systems"
+	],
+	"creative": ["Writing", "Dungeons & Dragons", "Drawing"]
+}
