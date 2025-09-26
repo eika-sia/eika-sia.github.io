@@ -20,7 +20,8 @@ interface NormalizedProject {
   categoryClasses: string;
 }
 
-const projects: NormalizedProject[] = prioritized.slice(0, 3).map((p: CollectionEntry<"projects">) => {
+// Show up to 4 projects now that layout is a 2-column grid
+const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: CollectionEntry<"projects">) => {
   const tags: string[] = Array.isArray(p.data.tags) ? p.data.tags : [];
   const collaborators: string[] = Array.isArray(p.data.collaborators) ? p.data.collaborators : [];
   const status = p.data.status as string | undefined;
@@ -34,42 +35,29 @@ const projects: NormalizedProject[] = prioritized.slice(0, 3).map((p: Collection
 });
 ---
 
-<div class="grid gap-10 md:grid-cols-2">
+<div class="relaxed-grid cols-2 px-1 sm:px-2 pb-12 md:pb-16">
   {projects.map((project: NormalizedProject) => (
     <Card title={project.data.title} description={project.data.description} tags={project.tags}>
-      <div class="text-sm text-slate-400 mb-4 mono">
-        {project.status && <span class="text-violet-400">[{project.status.toUpperCase()}]</span>}
-        <span class="ml-3">{project.data.date}</span>
-      </div>
-      <div class="text-base text-slate-300 mb-6">
-        {project.collaborators.length > 0 && <>
-        <span class="text-violet-400 font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
-        </>}
-      </div>
-      <div class="flex items-center gap-4">
-        <span class={`px-3 py-2 rounded text-sm mono ${project.categoryClasses}`}>
-          {project.category}
-        </span>
-        <a href={`/projects/${project.data.slug || project.id}`} class="text-violet-400 hover:text-violet-300 text-sm">
-          View Details →
-        </a>
+      <div class="project-meta-stack tight mt-6 md:mt-7">
+        <div class="text-sm text-slate-400 mono leading-relaxed tracking-wide">
+          {project.status && <span class="text-violet-400">[{project.status.toUpperCase()}]</span>}
+          <span class="ml-3">{project.data.date}</span>
+        </div>
+        {project.collaborators.length > 0 && (
+          <div class="text-base text-slate-300 leading-relaxed">
+            <span class="text-violet-400 font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
+          </div>
+        )}
+        <div class="flex items-center gap-4 pt-2 border-t border-[var(--accent-soft)]/15">
+          <span class={`px-3 py-2 rounded text-sm mono ${project.categoryClasses}`}>
+            {project.category}
+          </span>
+          <a href={`/projects/${project.data.slug || project.id}`} class="text-violet-400 hover:text-violet-300 text-sm">
+            View Details →
+          </a>
+        </div>
       </div>
     </Card>
   ))}
 </div>
 
-<div class="mt-24 flex justify-center">
-  <a href="/projects" class="group relative inline-flex items-center justify-center
-    rounded-full px-20 py-7 text-xl md:text-2xl font-semibold tracking-wide
-    min-w-[260px]
-    text-[var(--text-strong)]
-    bg-[linear-gradient(125deg,rgba(18,22,32,0.95)_0%,rgba(32,40,58,0.93)_60%,rgba(50,34,60,0.9)_100%)]
-    border border-[var(--accent)]/28 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05)]
-    transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[var(--accent-soft)]/35 active:scale-[.975]
-    hover:border-[var(--accent)]/55 hover:shadow-[0_10px_34px_-10px_rgba(0,0,0,0.78),0_0_0_1px_rgba(255,255,255,0.07)]">
-    <span class="relative flex items-center gap-3">
-      <span class="relative drop-shadow-[0_1px_2px_rgba(0,0,0,0.65)]">See all projects</span>
-      <span class="opacity-60 group-hover:translate-x-1 group-hover:opacity-100 transition-transform">→</span>
-    </span>
-  </a>
-</div>

@@ -1,5 +1,5 @@
 ---
-import ProgressBar from '../site/ProgressBar.astro';
+// ProgressBar import removed (no longer used after simplification)
 import HistoryItem from './HistoryItem.astro';
 import educationData from '../../data/education.json';
 
@@ -19,13 +19,11 @@ interface EducationItem {
 const educations: EducationItem[] = educationData as EducationItem[];
 ---
 
-<div class="space-y-10">
+<div class="flex flex-col gap-10 md:gap-12 education-stack px-1 sm:px-2 max-w-3xl mx-auto">
   {educations.map((edu: EducationItem) => {
+    // Compute progress (cap at 100%). If ectsTotal is 0 treat as complete for percentage.
     let progress = Math.min(1, edu.ects / (edu.ectsTotal || 1));
-    if (edu.ectsTotal === 0) {
-      // If ectsTotal is 0, set progress to 1 (100%)
-      progress = 1;
-    }
+    if (edu.ectsTotal === 0) progress = 1;
     return (
       <HistoryItem
         title={edu.degree}
@@ -35,22 +33,28 @@ const educations: EducationItem[] = educationData as EducationItem[];
         end={edu.end}
         type="academic"
       >
-        <div class="mt-5 space-y-5">
-          <div>
-            <div class="flex justify-between text-[10px] mono text-slate-500 mt-1">
-              <span>{Math.round(progress * 100)}%</span>
-              {edu.ectsTotal !== 0 && <span>{edu.ects} / {edu.ectsTotal} ECTS</span>}
+  <div class="mt-5 space-y-5">
+          <div class="mt-1">
+            <div class="flex items-end justify-between w-full gap-6 text-[var(--accent-soft)]">
+              <span class="flex-1 text-left text-lg md:text-xl font-semibold leading-none">
+                {Math.round(progress * 100)}<span class="text-xs align-top">%</span>
+              </span>
+              <span class="flex-1 text-center text-sm md:text-base font-medium mono tracking-wide">
+                {edu.ectsTotal !== 0 ? `${edu.ects} / ${edu.ectsTotal} ECTS` : '—'}
+              </span>
+              <span class="flex-1 text-right text-sm md:text-base font-medium mono tracking-wide">
+                GPA {edu.gpa}
+              </span>
             </div>
           </div>
           <div class="space-y-3">
             <p class="text-slate-300 text-sm md:text-base leading-relaxed">
               <span class="text-[var(--accent-soft)] font-semibold">Focus:</span> {edu.focus}
-              <span class="ml-3 text-slate-500 text-xs">GPA {edu.gpa}</span>
             </p>
             {edu.coursework.length > 0 && (
-              <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-3 md:gap-3.5">
                 {edu.coursework.map((course: string) => (
-                  <span class="badge !text-[10px] md:!text-[11px] tracking-wide opacity-90">{course}</span>
+          <span class="badge !text-[10px] md:!text-[11px] tracking-wide opacity-90 px-3 py-1.5 md:px-3.5 md:py-1.5">{course}</span>
                 ))}
               </div>
             )}

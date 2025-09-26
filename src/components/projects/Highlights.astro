@@ -3,23 +3,22 @@ import Card from '../site/Card.astro';
 ---
 
 <!-- Publications only (Awards & Skills intentionally removed) -->
-<div class="space-y-12">
-  <div>
-    <div class="space-y-8">
-      <Card 
+<div class="publications-stack px-1 sm:px-2">
+  <div class="max-w-3xl mx-auto">
+  <Card class="publication-card"
         title="Moore Machine Architecture on Multi-layer Hopfield Networks" 
         description="A different perspective of sequential memory in humans"
         tags={["neural-networks", "memory", "cognitive-architecture"]}>
-        <div class="text-base text-slate-300 mb-4">
+  <div class="text-base text-slate-300 mb-6">
           <span class="text-violet-400 font-semibold">Conference:</span> Sixth International Conference of Mathematics of Neuroscience and AI, 2025
         </div>
         <div class="text-sm text-slate-400 mono">Author: Goran Ivančić</div>
       </Card>
-      <Card 
+  <Card class="publication-card"
         title="Biological Neural Machines" 
         description="Creating a Computer on Biologically Restrained Neural Networks"
         tags={["neural-computing", "biophysics", "computational-neuroscience"]}>
-        <div class="text-base text-slate-300 mb-4">
+  <div class="text-base text-slate-300 mb-6">
           <span class="text-violet-400 font-semibold">Course:</span> IRCN and Chen Institute Joint Course on Neuro-inspired Computation, 2025
         </div>
         <div class="text-sm text-slate-400 mono">Author: Goran Ivančić</div>

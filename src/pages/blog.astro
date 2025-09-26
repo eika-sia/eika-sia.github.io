@@ -16,7 +16,7 @@ const sortedPosts = posts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"
       human cognition with technology.
     </p>
     
-    <div class="space-y-8">
+  <div class="relaxed-stack px-1 sm:px-2">
       {sortedPosts.map((post: CollectionEntry<"blog">) => (
         <Card title={post.data.title} description={post.data.description} tags={post.data.tags}>
           <div class="text-xs text-slate-400 mb-3 mono">

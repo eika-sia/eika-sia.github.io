@@ -3,23 +3,30 @@ interface Props {
   title: string;
   description: string;
   tags: string[];
+  class?: string; // optional extra classes for wrapper
 }
-const { title, description, tags = [] } = Astro.props as Props;
+const { title, description, tags = [], variant = 'glass', class: extraClass = '' } = Astro.props as Props;
 
-// Single solid style (glassy variant removed again)
-const wrapperClass = 'group relative rounded-2xl transition-all p-7 md:p-8 border bg-[var(--panel)] hover:shadow-xl hover:shadow-[var(--accent-soft)]/10';
+// Tighter overall vertical padding while keeping roomy x-padding
+const base = 'group relative rounded-3xl transition-all py-10 px-10 md:py-12 md:px-12 border';
+// Restored glass style (performance-conscious: reduced blur strength vs earlier version)
+const glass = 'border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.42)] backdrop-blur-md hover:bg-[rgba(18,22,32,0.58)] hover:border-[var(--accent-soft)]/35 shadow-[0_0_0_1px_rgba(0,0,0,0.28),0_10px_30px_-14px_rgba(0,0,0,0.65)] hover:shadow-[0_0_0_1px_rgba(0,0,0,0.34),0_16px_44px_-12px_rgba(0,0,0,0.7)]';
+const solid = 'bg-[var(--panel)] hover:shadow-xl hover:shadow-[var(--accent-soft)]/10';
+const wrapperClass = `${base} ${variant === 'solid' ? solid : glass} ${extraClass}`.trim();
 ---
 <div class={wrapperClass}>
-  <h3 class="font-semibold text-lg mb-3 text-slate-100 tracking-tight">{title}</h3>
-  <p class="mb-5 text-slate-300 text-sm leading-relaxed">{description}</p>
-  {tags.length > 0 && (
-    <div class="mb-5 flex flex-wrap gap-2">
-      {tags.map((tag: string) => (
-        <span class="badge">{tag}</span>
-      ))}
+  <div class="card-inner">
+    <h3 class="font-semibold text-2xl mb-5 text-slate-100 tracking-tight leading-snug">{title}</h3>
+    <p class="mb-8 text-slate-300 text-sm md:text-base leading-relaxed md:leading-loose max-w-[52ch]">{description}</p>
+    {tags.length > 0 && (
+    <div class="mb-14 flex flex-wrap gap-2.5">
+        {tags.map((tag: string) => (
+          <span class="badge">{tag}</span>
+        ))}
+      </div>
+    )}
+    <div>
+      <slot />
     </div>
-  )}
-  <div>
-    <slot />
   </div>
 </div>

@@ -7,27 +7,28 @@ import Highlights from '../components/projects/Highlights.astro';
 ---
 
 <BaseLayout>
+  <div class="content-shell relaxed-stack">
   <!-- Hero Section -->
-  <section class="pt-10 md:pt-12 pb-10 text-center space-y-8">
+  <section class="pt-6 md:pt-8 pb-8 md:pb-10 text-center space-y-7 md:space-y-9">
     <div class="flex flex-col items-center gap-4">
       <div class="flex items-center gap-2 text-sm mono text-slate-500">
         <span class="text-[var(--accent)]">$</span>
         <span>whoami</span>
       </div>
-      <h1 class="font-bold text-slate-100 leading-tight">Goran Ivančić</h1>
+  <h1 class="font-bold text-slate-100 leading-tight tracking-tight">Goran Ivančić</h1>
       <div class="text-xl md:text-2xl text-[var(--accent-soft)] min-h-[2.2rem] flex items-center justify-center">
         <span id="typewriter"></span>
         <span class="cursor-blink ml-1">▊</span>
       </div>
-      <p class="text-base md:text-lg max-w-2xl mx-auto text-slate-300 leading-relaxed">
+  <p class="text-base md:text-xl narrow-text mx-auto text-slate-300 leading-relaxed md:leading-loose tracking-wide">
         Exploring human cognition through computational neuroscience. Playing CTFs and learning operating systems on the side.
       </p>
       <div class="flex flex-wrap justify-center gap-4 md:gap-6 pt-2">
         <a href="mailto:goran.ivancic@fer.hr" class="badge text-[var(--accent-soft)] !text-xs px-5 py-3 flex items-center gap-2 hover:brightness-110 transition">
-          <span>✉</span> goran.ivancic@fer.hr
+          goran.ivancic@fer.hr
         </a>
         <a href="/cv" class="badge text-[var(--accent-soft)] !text-xs px-5 py-3 flex items-center gap-2 hover:brightness-110 transition">
-          <span>📄</span> CV
+          CV
         </a>
       </div>
       <div class="text-xs md:text-sm text-slate-500 mono pt-2">
@@ -38,22 +39,44 @@ import Highlights from '../components/projects/Highlights.astro';
   </section>
 
   <!-- Education Timeline/Progress -->
-  <section class="max-w-4xl mx-auto mb-28">
+  <section class="relaxed-section max-w-4xl mx-auto">
     <SectionHeader title="Education" folder="learning" variant="bar" sub="Formal degree programs and academic progression." />
+  <div class="first-card-gap space-y-8 md:space-y-10">
     <EducationTimeline />
+    </div>
   </section>
 
   <!-- Current Projects -->
-  <section class="max-w-6xl mx-auto mb-28">
+  <section class="relaxed-section max-w-6xl mx-auto pb-4 md:pb-6">
     <SectionHeader title="Current Research & Projects" folder="projects" variant="bar" sub="Active technical & neuroscience initiatives." />
+  <div class="first-card-gap">
     <CurrentProjects />
+    </div>
+  </section>
+
+  <!-- Projects CTA (moved outside component for stronger separation) -->
+  <section class="pt-0 pb-16 md:pb-20 max-w-4xl mx-auto flex flex-col items-center -mt-2">
+    <div class="w-full h-7 md:h-9 relative mb-5 pointer-events-none select-none">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d121b]/70 to-[#090b10]"></div>
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-soft)]/30 to-transparent"></div>
+    </div>
+    <a href="/projects" class="group relative inline-flex items-center justify-center rounded-full px-20 py-8 text-[1.4rem] md:text-[1.75rem] font-bold tracking-wide min-w-[300px]
+      text-[var(--text-strong)] bg-[linear-gradient(145deg,rgba(24,28,40,0.9)_0%,rgba(34,40,56,0.88)_55%,rgba(55,38,64,0.84)_100%)] backdrop-blur-2xl border border-[var(--accent-soft)]/45 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[var(--accent-soft)]/45 active:scale-[.965] hover:border-[var(--accent-soft)]/70 hover:shadow-[0_20px_54px_-14px_rgba(0,0,0,0.88),0_0_0_1px_rgba(255,255,255,0.06)]">
+      <span class="relative flex items-center gap-3">
+        <span class="relative drop-shadow-[0_3px_6px_rgba(0,0,0,0.65)]">See all projects</span>
+        <span class="opacity-60 group-hover:translate-x-2 group-hover:opacity-100 transition-transform">→</span>
+      </span>
+    </a>
   </section>
 
   <!-- Publications -->
-  <section class="max-w-6xl mx-auto mb-8">
+  <section class="relaxed-section max-w-5xl mx-auto">
     <SectionHeader title="Publications" folder="extras" variant="bar" />
-    <Highlights />
+  <div class="first-card-gap">
+      <Highlights />
+    </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
