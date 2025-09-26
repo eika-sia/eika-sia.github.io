@@ -58,6 +58,18 @@ const projects: NormalizedProject[] = prioritized.slice(0, 3).map((p: Collection
   ))}
 </div>
 
-<div class="mt-10 text-center">
-  <a href="/projects" class="inline-block text-sm px-7 py-3 rounded-full border border-[var(--accent-soft)]/40 text-[var(--accent-soft)] tracking-wide hover:border-[var(--accent-soft)]/70 hover:text-[var(--accent)] bg-[rgba(18,22,32,0.55)] hover:bg-[rgba(18,22,32,0.75)] shadow-[0_0_0_1px_rgba(0,0,0,0.4),0_6px_22px_-10px_rgba(0,0,0,0.55)] hover:shadow-[0_0_0_1px_rgba(0,0,0,0.45),0_8px_28px_-8px_rgba(0,0,0,0.6)] transition-all focus:outline-none focus:ring-2 focus:ring-[var(--accent-soft)]/50 focus:ring-offset-0">See all projects →</a>
+<div class="mt-24 flex justify-center">
+  <a href="/projects" class="group relative inline-flex items-center justify-center
+    rounded-full px-20 py-7 text-xl md:text-2xl font-semibold tracking-wide
+    min-w-[260px]
+    text-[var(--text-strong)]
+    bg-[linear-gradient(125deg,rgba(18,22,32,0.95)_0%,rgba(32,40,58,0.93)_60%,rgba(50,34,60,0.9)_100%)]
+    border border-[var(--accent)]/28 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05)]
+    transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[var(--accent-soft)]/35 active:scale-[.975]
+    hover:border-[var(--accent)]/55 hover:shadow-[0_10px_34px_-10px_rgba(0,0,0,0.78),0_0_0_1px_rgba(255,255,255,0.07)]">
+    <span class="relative flex items-center gap-3">
+      <span class="relative drop-shadow-[0_1px_2px_rgba(0,0,0,0.65)]">See all projects</span>
+      <span class="opacity-60 group-hover:translate-x-1 group-hover:opacity-100 transition-transform">→</span>
+    </span>
+  </a>
 </div>

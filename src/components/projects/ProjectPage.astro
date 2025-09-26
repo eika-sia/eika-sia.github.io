@@ -1,8 +1,14 @@
 ---
 import { type CollectionEntry } from "astro:content";
 
-const { project }: { project: CollectionEntry<"projects"> } = Astro.props;
-const { Content } = await project.render();
+// Locally extend the collection entry type with the runtime render() that exists on markdown entries.
+type RenderableProject = CollectionEntry<'projects'> & { render: () => Promise<{ Content: any }> };
+
+const project = (Astro.props as { project: RenderableProject }).project;
+if (!project) {
+  throw new Error("ProjectPage: missing 'project' prop");
+}
+const { Content } = await (project as any).render();
 ---
 
 <article class="prose prose-invert max-w-none">

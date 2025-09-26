@@ -1,8 +1,13 @@
 ---
 import { type CollectionEntry } from "astro:content";
 
-const { post }: { post: CollectionEntry<"blog"> } = Astro.props;
-const { Content } = await post.render();
+type RenderablePost = CollectionEntry<'blog'> & { render: () => Promise<{ Content: any }> };
+
+const post = (Astro.props as { post: RenderablePost }).post;
+if (!post) {
+  throw new Error("BlogPost: missing 'post' prop");
+}
+const { Content } = await (post as any).render();
 ---
 
 <article class="prose prose-invert max-w-none">
