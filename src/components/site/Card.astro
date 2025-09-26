@@ -3,15 +3,11 @@ interface Props {
   title: string;
   description: string;
   tags: string[];
-  variant?: 'glass' | 'solid';
 }
-const { title, description, tags = [], variant = 'glass' } = Astro.props as Props;
+const { title, description, tags = [] } = Astro.props as Props;
 
-const base = 'group relative rounded-2xl transition-all p-7 md:p-8 border';
-// Restored glass style (performance-conscious: reduced blur strength vs earlier version)
-const glass = 'border-[var(--accent-soft)]/15 bg-[rgba(18,22,32,0.40)] backdrop-blur-sm hover:bg-[rgba(18,22,32,0.58)] hover:border-[var(--accent-soft)]/30 shadow-[0_0_0_1px_rgba(0,0,0,0.32),0_8px_26px_-14px_rgba(0,0,0,0.65)] hover:shadow-[0_0_0_1px_rgba(0,0,0,0.38),0_12px_38px_-12px_rgba(0,0,0,0.7)]';
-const solid = 'bg-[var(--panel)] hover:shadow-xl hover:shadow-[var(--accent-soft)]/10';
-const wrapperClass = `${base} ${variant === 'solid' ? solid : glass}`;
+// Single solid style (glassy variant removed again)
+const wrapperClass = 'group relative rounded-2xl transition-all p-7 md:p-8 border bg-[var(--panel)] hover:shadow-xl hover:shadow-[var(--accent-soft)]/10';
 ---
 <div class={wrapperClass}>
   <h3 class="font-semibold text-lg mb-3 text-slate-100 tracking-tight">{title}</h3>
