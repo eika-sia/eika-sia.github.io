@@ -150,12 +150,14 @@ a:hover {
 }
 
 /* Unified inner padding so text never hugs rounded edges */
-.card-inner, .history-inner {
+.card-inner,
+.history-inner {
 	padding-inline: clamp(0.75rem, 2vw, 1.85rem);
 	padding-block: 0.6rem; /* add top/bottom breathing space */
 }
 @media (min-width: 900px) {
-	.card-inner, .history-inner {
+	.card-inner,
+	.history-inner {
 		padding-inline: clamp(1.25rem, 2.2vw, 2.4rem);
 		padding-block: 1.05rem; /* a bit more vertical space on larger screens */
 	}
