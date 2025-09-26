@@ -1,6 +1,6 @@
 [
 	{
-		"institution": "Faculty of Electrical Engineering and Computing",
+		"institution": "Faculty of Electrical Engineering and Computing, University of Zagreb",
 		"location": "Zagreb, Croatia",
 		"degree": "Bachelor of Computer Engineering",
 		"start": "2024",
@@ -17,7 +17,7 @@
 		]
 	},
 	{
-		"institution": "DOBA Faculty",
+		"institution": "DOBA Faculty of Business and Applied Social Studies in Maribor",
 		"location": "Maribor, Slovenia",
 		"degree": "Bachelor of Applied Psychology",
 		"start": "2024",
@@ -31,5 +31,16 @@
 			"Cognitive and Neuroscience",
 			"Decision-Making Cognition"
 		]
+	},
+	{
+		"institution": "XV Gymnasium, Zagreb",
+		"location": "Zagreb, Croatia",
+		"degree": "High School Diploma",
+		"start": "2020",
+		"end": "2024",
+		"gpa": "4.70/5.00",
+		"ectsTotal": 0,
+		"focus": "Mathematics and Computer Science",
+		"coursework": ["Advanced Mathematics", "Computer Science", "Physics"]
 	}
 ]

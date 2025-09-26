@@ -30,7 +30,7 @@ const prompt = command || (folder ? `head ~/${folder}/*` : 'echo');
   <div class="flex flex-col gap-3">
     <h2 class={`font-bold leading-tight text-slate-100 ${variant === 'pill' ? 'text-2xl md:text-3xl inline-flex items-center gap-3' : 'text-3xl md:text-4xl border-l-4 border-[var(--accent-soft)] pl-6'}`}>
       {variant === 'pill' && (
-        <span class="px-3 py-1 rounded-full bg-[var(--panel)] border border-slate-600/30 text-[var(--accent-soft)] text-xs mono">section</span>
+  <span class="px-3 py-1 rounded-full bg-[var(--panel)] border text-[var(--accent-soft)] text-xs mono" style="border-color: var(--border-color);">section</span>
       )}
       {title}
     </h2>

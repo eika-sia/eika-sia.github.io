@@ -21,7 +21,11 @@ const educations: EducationItem[] = educationData as EducationItem[];
 
 <div class="space-y-10">
   {educations.map((edu: EducationItem) => {
-    const progress = Math.min(1, edu.ects / (edu.ectsTotal || 1));
+    let progress = Math.min(1, edu.ects / (edu.ectsTotal || 1));
+    if (edu.ectsTotal === 0) {
+      // If ectsTotal is 0, set progress to 1 (100%)
+      progress = 1;
+    }
     return (
       <HistoryItem
         title={edu.degree}
@@ -33,10 +37,9 @@ const educations: EducationItem[] = educationData as EducationItem[];
       >
         <div class="mt-5 space-y-5">
           <div>
-            <ProgressBar progress={progress} />
             <div class="flex justify-between text-[10px] mono text-slate-500 mt-1">
               <span>{Math.round(progress * 100)}%</span>
-              <span>{edu.ects} / {edu.ectsTotal} ECTS</span>
+              {edu.ectsTotal !== 0 && <span>{edu.ects} / {edu.ectsTotal} ECTS</span>}
             </div>
           </div>
           <div class="space-y-3">

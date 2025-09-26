@@ -1,0 +1,92 @@
+---
+const { Content, frontmatter } = Astro.props;
+const {
+  title = '',
+  description = '',
+  date,
+  updated,
+  tags = [],
+  status,
+  collaborators = []
+} = frontmatter;
+---
+
+<main class="mx-auto max-w-[760px] px-5 md:px-8 py-14">
+  <header class="mb-12 space-y-5">
+    {title && <h1 class="font-semibold tracking-tight text-3xl md:text-4xl leading-tight">{title}</h1>}
+    {description && <p class="text-slate-400 text-base md:text-lg leading-relaxed">{description}</p>}
+    {(date || updated || status || collaborators.length || tags.length) && (
+      <div class="space-y-2 text-[11px] tracking-wide">
+        <div class="flex flex-wrap gap-x-5 gap-y-1 text-slate-500 mono uppercase">
+          {date && <span>Published {new Date(date).toLocaleDateString()}</span>}
+          {updated && <span>Updated {new Date(updated).toLocaleDateString()}</span>}
+          {status && <span>Status: {status}</span>}
+        </div>
+        {(collaborators.length > 0) && (
+          <div class="flex flex-wrap gap-2 text-[10px] text-slate-400">
+            {collaborators.map((c: string) => (
+              <span class="px-2 py-0.5 rounded bg-slate-800/60 text-slate-300">{c}</span>
+            ))}
+          </div>
+        )}
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map((t: string) => (
+              <span class="px-2 py-0.5 rounded bg-slate-800/60 text-[10px] font-medium text-slate-300">{t}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-700/60 to-transparent" />
+  </header>
+
+  <article class="md-article prose prose-invert max-w-none">
+    <Content />
+  </article>
+</main>
+
+<style>
+.md-article {
+  --tw-prose-invert-body: theme(colors.slate.300);
+  --tw-prose-invert-headings: theme(colors.white);
+  --tw-prose-invert-links: var(--accent-soft);
+  --tw-prose-invert-bold: theme(colors.white);
+  --tw-prose-invert-counters: theme(colors.slate.400);
+  --tw-prose-invert-bullets: var(--accent-soft);
+  --tw-prose-invert-hr: theme(colors.slate.700 / 0.6);
+  --tw-prose-invert-quotes: theme(colors.slate.200);
+  --tw-prose-invert-quote-borders: theme(colors.slate.600);
+  --tw-prose-invert-captions: theme(colors.slate.400);
+  --tw-prose-invert-code: theme(colors.slate.200);
+  --tw-prose-invert-pre-code: theme(colors.slate.100);
+  --tw-prose-invert-pre-bg: theme(colors.slate.900);
+  --tw-prose-invert-th-borders: theme(colors.slate.600);
+  --tw-prose-invert-td-borders: theme(colors.slate.700);
+}
+
+.md-article :where(h1,h2,h3,h4) {
+  scroll-margin-top: 5rem;
+}
+.md-article h2 { @apply mt-12 mb-4 text-2xl font-semibold tracking-tight; }
+.md-article h3 { @apply mt-10 mb-3 text-xl font-semibold tracking-tight; }
+.md-article h4 { @apply mt-8 mb-2 text-lg font-semibold tracking-tight; }
+.md-article p { @apply leading-relaxed; }
+.md-article a { @apply underline decoration-[var(--accent-soft)] decoration-2 underline-offset-2 hover:opacity-90 transition; }
+.md-article code { @apply text-[13px] px-1.5 py-0.5 rounded bg-slate-800/70; }
+.md-article pre code { @apply bg-transparent p-0 text-[13px] leading-relaxed; }
+.md-article pre { @apply rounded-lg bg-slate-900/80 border p-4 overflow-x-auto text-[13px]; border-color: var(--border-color); }
+.md-article blockquote { @apply border-l-4 border-[var(--accent-soft)]/60 pl-4 italic text-slate-300 bg-slate-800/30 rounded-r; }
+.md-article ul > li { @apply pl-1; }
+.md-article li::marker { color: var(--accent-soft); }
+.md-article img { @apply rounded-md shadow-md border; border-color: var(--border-color); }
+.md-article hr { @apply my-12; border-color: var(--border-color); }
+.md-article table { @apply w-full text-sm border-collapse; }
+.md-article th { @apply bg-slate-800/60 font-semibold; }
+.md-article th, .md-article td { @apply border px-3 py-2; border-color: var(--border-color); }
+.md-article strong { @apply text-slate-100; }
+.md-article em { @apply text-slate-200; }
+
+/* Medium-like intro paragraph style */
+.md-article > p:first-of-type { @apply text-[1.07rem] md:text-lg leading-relaxed text-slate-200; }
+</style>
