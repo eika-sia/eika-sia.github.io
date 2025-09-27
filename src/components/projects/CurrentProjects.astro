@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { resolveSlug } from '../../lib/slug';
 import Card from '../site/Card.astro';
 
 const allProjects = await getCollection("projects");
@@ -31,7 +32,7 @@ const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: Collection
     : category === 'hardware'
       ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
       : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
-  const derivedSlug = (p.data as any).slug || p.id.replace(/\.md$/, '');
+  const derivedSlug = resolveSlug(p as any);
   return { id: p.id, data: { ...p.data, slug: derivedSlug } as any, tags, collaborators, status, category, categoryClasses };
 });
 ---

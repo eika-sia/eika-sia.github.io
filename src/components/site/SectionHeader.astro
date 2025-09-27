@@ -20,15 +20,15 @@ const {
 // To keep it concise we render: `head ~/folder/*` when folder present, else just a `$` prompt.
 const prompt = command || (folder ? `head ~/${folder}/*` : 'echo');
 ---
-<div class="space-y-5 mb-0 pb-6 md:pb-8">
+<div class="space-y-5 mb-0 pb-4 md:pb-5">
   {showPrompt && (
-    <div class="flex items-center gap-2 text-xs tracking-wide">
-      <span class="mono text-[var(--accent-soft)]">$</span>
-      <span class="mono text-slate-500">{prompt}</span>
+    <div class="section-prompt" aria-label="section command">
+      <span class="prompt-symbol accent-soft mono" style="color: var(--accent-soft) !important;">$</span>
+      <span class="prompt-text mono">{prompt}</span>
     </div>
   )}
   <div class="flex flex-col gap-3">
-    <h2 class={`font-extrabold leading-tight tracking-tight text-slate-100 ${variant === 'pill' ? 'text-3xl md:text-4xl inline-flex items-center gap-3' : 'text-4xl md:text-5xl border-l-6 border-[var(--accent-soft)] pl-6'}`}>
+  <h2 class={`font-extrabold leading-tight tracking-tight text-slate-100 ${variant === 'pill' ? 'text-3xl md:text-4xl inline-flex items-center gap-3' : 'text-4xl md:text-5xl pl-6 relative section-header-bar'}`}>
       {variant === 'pill' && (
   <span class="px-4 py-1.5 rounded-full bg-[var(--panel)]/70 border text-[var(--accent-soft)] text-xs mono tracking-wider uppercase" style="border-color: var(--border-color);">section</span>
       )}
@@ -38,3 +38,19 @@ const prompt = command || (folder ? `head ~/${folder}/*` : 'echo');
     {variant === 'bar' && <div class="h-px bg-gradient-to-r from-[var(--accent-soft)]/80 via-[var(--accent-soft)]/25 to-transparent" />}
   </div>
 </div>
+
+<style>
+.section-header-bar:not(.inline-flex) { position:relative; }
+.section-header-bar:not(.inline-flex)::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  background:var(--accent-soft);
+  border-radius:0;
+  box-shadow:none;
+}
+@media (min-width:768px){ .section-header-bar:not(.inline-flex)::before { width:7px; } }
+</style>

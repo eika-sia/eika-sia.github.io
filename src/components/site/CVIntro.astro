@@ -1,8 +1,9 @@
 ---
 // Simplified intro (stats removed per request)
 const TAGLINE = 'Computational neuroscience • Cognitive systems • Hardware & security';
+const UPDATED = new Date().toISOString().slice(0,10);
 ---
-<section class="group relative border border-[var(--accent-soft)]/20 bg-[rgba(18,22,32,0.42)] backdrop-blur-md p-8 md:p-12 mb-12 shadow-[0_0_0_1px_rgba(0,0,0,0.35),0_14px_40px_-16px_rgba(0,0,0,0.65)] overflow-hidden">
+<section class="group relative border border-[rgba(111,99,216,0.18)] bg-[rgba(18,22,32,0.46)] backdrop-blur-md p-8 md:p-12 mb-12 shadow-[0_10px_34px_-18px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.03)] transition-all hover:border-[rgba(111,99,216,0.45)] hover:bg-[rgba(22,27,39,0.62)] hover:shadow-[0_18px_50px_-20px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05)] overflow-hidden">
   <div class="absolute inset-0 pointer-events-none opacity-[0.33] bg-[radial-gradient(circle_at_35%_15%,rgba(77,83,201,0.25),transparent_55%)]"></div>
   <header class="mb-10 flex flex-col md:flex-row md:items-start md:justify-between gap-6 relative z-10">
     <div class="space-y-5 max-w-2xl">
@@ -24,4 +25,7 @@ const TAGLINE = 'Computational neuroscience • Cognitive systems • Hardware &
   </header>
 
   <!-- Contact & stats removed per request -->
+  <div class="mt-8 text-[10px] md:text-xs mono tracking-wide text-slate-600 relative z-10">
+    Last updated: <span class="text-slate-400">{UPDATED}</span>
+  </div>
 </section>

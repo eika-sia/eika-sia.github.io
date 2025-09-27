@@ -75,11 +75,13 @@ Removed legacy duplicate or deprecated components (old duplicates, unused Projec
     -   Short description
     -   Tags
     -   Read time
+    -   Tag dropdown filtering (client-side, multi-tag toggle)
 
 ### 🧪 Projects (`/projects` + dynamic pages)
 
 -   Listing: title, description, tags, optional progress
 -   Per-project detail pages via `[slug]`
+-   Tag dropdown filtering identical to blog
 
 ### 🔍 Markdown Frontmatter Example
 
@@ -111,9 +113,17 @@ Core (in `src/components/site`):
 -   `CtaButton.astro` – unified call‑to‑action styling
 -   `PublicationsList.astro` – maps publications JSON to cards
 -   `FullHistory.astro` – CV experience, achievements, skills, interests
+-   `TagDropdown.astro` – accessible client-side tag filter (blog & projects)
 -   `BaseLayout.astro` (in `layouts/`) – global shell, SEO meta, nav accent
 
 Design: single dark/glass aesthetic, subtle gradients, no theme toggle.
+
+Recent visual refinements:
+
+-   Compact CV spacing via `.cv-compact` + reduced internal gaps
+-   Unified accent border + hover lighten across all cards (CV, links, education)
+-   Full-width gradient accent bars on list & detail pages (replaced short title bars)
+-   "Last updated" now rendered within `CVIntro` (single source)
 
 ---
 
@@ -133,12 +143,14 @@ eikasia.net
 
 -   [x] RSS feed (implemented in `src/pages/rss.xml.ts`)
 -   [x] Sitemap generation (`src/pages/sitemap.xml.ts`)
--   [ ] Tag filtering
+-   [x] Tag filtering (blog + projects via `TagDropdown`)
 -   [ ] Search (client-side fuzzy)
 -   [ ] Project feed generation
 -   [ ] Print/PDF CV stylesheet + auto export
 -   [ ] Structured data for individual blog posts (Article schema)
 -   [ ] Dynamic OG image generation
+-   [ ] Git-derived automatic "Last updated" stamp for CV
+-   [ ] Density toggle (normal vs ultra-compact)
 
 ---
 

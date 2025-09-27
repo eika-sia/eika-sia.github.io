@@ -1,19 +1,18 @@
 ---
 import ProjectPage from "../../components/projects/ProjectPage.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { ensureUniqueSlugs } from '../../lib/slug';
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((project: CollectionEntry<"projects">) => {
-    const slug = (project.data as any).slug || project.id.replace(/\.md$/, '');
-    return { params: { slug }, props: { project: { ...project, data: { ...project.data, slug } } } };
-  });
+  const uniq = ensureUniqueSlugs(projects as any);
+  return uniq.map((project: any) => ({ params: { slug: project.data.slug }, props: { project } }));
 }
 
 const { project }: { project: CollectionEntry<"projects"> } = Astro.props;
 ---
 
-<BaseLayout>
+<BaseLayout title={project.data.title} description={project.data.description} type="article" datePublished={project.data.date} ogImage="/favicon.svg" tags={project.data.tags}>
   <ProjectPage project={project} />
 </BaseLayout>

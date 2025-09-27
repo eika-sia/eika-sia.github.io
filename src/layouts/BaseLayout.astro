@@ -1,37 +1,116 @@
 ---
 import '../styles/global.css';
 import { site } from '../site.config';
+
+interface LayoutMetaProps {
+  title?: string;
+  description?: string;
+  ogImage?: string; // absolute or path starting with /
+  type?: 'website' | 'article' | 'creative';
+  datePublished?: string; // ISO string
+  dateModified?: string; // ISO string
+  tags?: string[];
+}
+
+const props = (Astro.props as LayoutMetaProps) || {};
+const pageTitle = props.title;
+const pageDescription = props.description;
+const ogImage = props.ogImage;
+const type = props.type || 'website'; // 'website' | 'article' | 'creative'
+const datePublished = props.datePublished;
+const dateModified = props.dateModified;
+const tags = props.tags || [];
+
+const fullTitle = pageTitle ? `${pageTitle} | ${site.title}` : site.title;
+const desc = pageDescription || site.description;
+const imageAbs = ogImage
+  ? ogImage.startsWith('http')
+    ? ogImage
+    : site.url.replace(/\/$/, '') + ogImage
+  : site.url + '/favicon.svg';
+const pageUrl = site.url + Astro.url.pathname;
+const isArticle = type === 'article';
+const isCreative = type === 'creative';
+// Basic JSON-LD for Person already included globally; add Article when relevant.
+const articleLd: any = isArticle
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: pageTitle || site.title,
+      description: desc,
+      author: { '@type': 'Person', name: site.author },
+      url: pageUrl,
+      datePublished: datePublished || undefined,
+      dateModified: dateModified || datePublished || undefined,
+      image: imageAbs,
+      keywords: tags && tags.length ? tags.join(', ') : undefined
+    }
+  : null;
+const creativeLd: any = isCreative
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: pageTitle || site.title,
+      description: desc,
+      url: pageUrl,
+      image: imageAbs,
+      datePublished: datePublished || undefined,
+      keywords: tags && tags.length ? tags.join(', ') : undefined,
+    }
+  : null;
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{site.title}</title>
-    <meta name="description" content={site.description}>
-    <link rel="canonical" href={site.url + Astro.url.pathname} />
+    <title>{fullTitle}</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self';" />
+    <meta name="description" content={desc}>
+    <link rel="canonical" href={pageUrl} />
     <link rel="alternate" type="application/rss+xml" title={site.title + ' RSS'} href="/rss.xml" />
-    <meta property="og:type" content="website" />
+    <link rel="alternate" type="application/feed+json" title={site.title + ' JSON Feed'} href="/feed.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <meta property="og:site_name" content={site.title} />
-    <meta property="og:title" content={site.title} />
-    <meta property="og:description" content={site.description} />
-    <meta property="og:url" content={site.url + Astro.url.pathname} />
-    <meta property="og:image" content={site.url + '/favicon.svg'} />
+    <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={imageAbs} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={site.title} />
-    <meta name="twitter:description" content={site.description} />
-    <meta name="twitter:image" content={site.url + '/favicon.svg'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={imageAbs} />
+    {isArticle && datePublished && <meta property="article:published_time" content={datePublished} />}
+    {isArticle && (dateModified || datePublished) && <meta property="article:modified_time" content={dateModified || datePublished} />}
+    {isArticle && tags.map(t => <meta property="article:tag" content={t} />)}
+    {/* Base Person schema (site owner) */}
     <script type="application/ld+json">{JSON.stringify({
       '@context':'https://schema.org',
       '@type':'Person',
       name: site.author,
       url: site.url,
       email: site.email,
-      sameAs: [
-        'https://github.com/eika-sia'
-      ]
+      sameAs: ['https://github.com/eika-sia']
     })}</script>
+    {articleLd && <script type="application/ld+json">{JSON.stringify(articleLd)}</script>}
+    {creativeLd && <script type="application/ld+json">{JSON.stringify(creativeLd)}</script>}
+    <style data-critical>
+      :root { --bg:#090b10; --panel:rgba(18,22,32,.62); --accent:#4d53c9; --accent-soft:#6f63d8; --accent-alt:#a8487f; --border-color:rgba(82,90,122,.26); --radius-sm:6px; --radius-pill:999px; --gradient-accent:linear-gradient(100deg,rgba(77,83,201,.85) 0%,rgba(111,99,216,.55) 40%,rgba(168,72,127,.45) 78%); }
+  body { color:#c6ced7; font-family:Inter,sans-serif; }
+      nav.site-nav { display:flex; gap:1.25rem; align-items:center; padding:.45rem 0; }
+      .panel { background:var(--panel); border:1px solid var(--border-color); border-radius:22px; }
+      .badge { background:linear-gradient(145deg,rgba(111,99,216,.14),rgba(111,99,216,.04)); border:1px solid rgba(111,99,216,.22); padding:.4rem .75rem; border-radius:var(--radius-pill); font:600 10px/1 JetBrains Mono,monospace; letter-spacing:.07em; color:var(--accent-soft); }
+      .nav-link { position:relative; font-weight:500; letter-spacing:.03em; }
+      .nav-active-indicator { position:absolute; left:10%; right:70%; bottom:0; height:2px; background:var(--gradient-accent); opacity:0; transform:scaleX(.25); transform-origin:left center; }
+      .nav-link.is-active .nav-active-indicator { opacity:1; transform:scaleX(1); left:0; right:0; }
+      .skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+      .skip-link:focus { position:fixed; left:1rem; top:1rem; width:auto; height:auto; background:var(--accent); color:#fff; padding:.75rem 1rem; border-radius:6px; z-index:1000; }
+    </style>
+    <slot name="head" />
   </head>
   <body class="min-h-screen smooth-colors">
+    <a href="#main" class="skip-link">Skip to content</a>
     <!-- Navigation Header -->
     <nav class="site-nav max-w-7xl mx-auto flex items-center justify-between smooth-colors relative">
       <a href="/" class="nav-link home-link text-slate-100 font-semibold tracking-tight text-lg md:text-xl hover:text-[var(--accent)] transition-colors relative">
@@ -54,7 +133,7 @@ import { site } from '../site.config';
       </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 md:px-10 lg:px-14 xl:px-16 pb-24 content-visibility-auto">
+  <main id="main" class="max-w-7xl mx-auto px-6 md:px-10 lg:px-14 xl:px-16 pb-24 content-visibility-auto" tabindex="-1">
       <div class="panel px-8 sm:px-12 md:px-18 lg:px-20 xl:px-24 2xl:px-28 py-14 md:py-18 space-y-26 md:space-y-34 smooth-colors content-visibility-auto">
         <slot />
       </div>
@@ -67,15 +146,18 @@ import { site } from '../site.config';
 .nav-active-indicator { position:absolute; left:10%; right:70%; bottom:0; height:2px; background:var(--gradient-accent); opacity:0; transform-origin:left center; transform:scaleX(.25); transition:opacity .35s, transform .5s cubic-bezier(.65,.05,.36,1), left .5s, right .5s; border-radius:0; }
 .nav-link:hover .nav-active-indicator { opacity:.55; transform:scaleX(1); right:10%; }
 .nav-link.is-active .nav-active-indicator { opacity:1; transform:scaleX(1); left:0; right:0; }
+.skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus { position:fixed; left:1rem; top:1rem; width:auto; height:auto; background:var(--accent); color:white; padding:.75rem 1rem; border-radius:var(--radius-sm); z-index:1000; box-shadow:0 4px 18px -6px rgba(0,0,0,.6); }
+.nav-link:focus-visible { outline:none; box-shadow:var(--focus-ring); }
 </style>
-<script>
-  const path = window.location.pathname.replace(/\/$/, '') || '/';
-  document.querySelectorAll('.nav-link').forEach(link => {
-    const indicator = link.querySelector('.nav-active-indicator');
-    if(!indicator) return;
-    const target = indicator.getAttribute('data-path');
-    if(target === path) {
-      link.classList.add('is-active');
-    }
-  });
+<script defer>
+  (function(){
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const indicator = link.querySelector('.nav-active-indicator');
+      if(!indicator) return;
+      const target = indicator.getAttribute('data-path');
+      if(target === path) link.classList.add('is-active');
+    });
+  })();
 </script>

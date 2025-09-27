@@ -1,31 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from "astro:content";
+import { resolveSlug } from '../lib/slug';
 import Card from '../components/site/Card.astro';
+import TagDropdown from '../components/site/TagDropdown.astro';
 
-const posts = await getCollection("blog");
+const posts = (await getCollection("blog")).map(p => ({
+  ...p,
+  slug: resolveSlug(p as any),
+  tags: Array.isArray(p.data.tags) ? p.data.tags : []
+}));
 // Sort by date (newest first)
-const sortedPosts = posts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const sortedPosts = posts.sort((a: CollectionEntry<"blog"> & { slug: string; tags: string[] }, b: CollectionEntry<"blog"> & { slug: string; tags: string[] }) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+// Tag frequency map and sorted list (desc by count, then alpha)
+const tagCounts: Record<string, number> = {};
+sortedPosts.forEach(p => p.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+const allTags = Object.keys(tagCounts).sort((a,b) => tagCounts[b] - tagCounts[a] || a.localeCompare(b));
 ---
 
 <BaseLayout>
   <div class="content-shell">
     <section class="relaxed-section max-w-5xl mx-auto">
-      <header class="space-y-5 md:space-y-7 text-left">
+  <header class="space-y-4 md:space-y-5 text-left pb-2 md:pb-3">
         <h1 class="font-bold leading-tight tracking-tight text-slate-100 text-4xl md:text-5xl">Blog</h1>
         <p class="narrow-text text-base md:text-lg text-slate-300 leading-relaxed md:leading-loose">
           Insights from my research in neuroscience, computer engineering, and the intersection of human cognition with technology.
         </p>
-        <div class="header-accent-bar w-48"></div>
+  <div class="header-accent-bar w-full"></div>
       </header>
-      <div class="first-card-gap relaxed-stack">
-        {sortedPosts.map((post: CollectionEntry<"blog">) => (
-          <Card title={post.data.title} description={post.data.description} tags={post.data.tags}>
+  {allTags.length > 0 && (<TagDropdown id="blog-tagfilter" items={allTags.map(t => ({ value: t, count: tagCounts[t] }))} total={sortedPosts.length} targetSelector=".post-item" />)}
+      <div class="first-card-gap relaxed-stack" id="blog-list">
+        {sortedPosts.map((post) => (
+          <Card title={post.data.title} description={post.data.description} tags={post.tags} class="post-item" data-tags={post.tags.join(',')}>
             <div class="text-xs text-slate-500 mb-4 mono flex items-center gap-3">
               <span class="text-[var(--accent-soft)]">{new Date(post.data.date).toLocaleDateString()}</span>
             </div>
             <div class="flex items-center justify-end pt-1">
-              <a href={`/blog/${(post.data as any).slug || post.id.replace(/\.md$/, '')}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
+              <a href={`/blog/${post.slug}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
                 Read Article →
               </a>
             </div>
@@ -35,3 +46,5 @@ const sortedPosts = posts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"
     </section>
   </div>
 </BaseLayout>
+
+<!-- Inline script removed; handled by TagDropdown component -->

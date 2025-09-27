@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry } from "astro:content";
 
-// Locally extend the collection entry type with the runtime render() that exists on markdown entries.
+// Extend the collection entry type with the runtime render() that exists on markdown entries.
 type RenderableProject = CollectionEntry<'projects'> & { render: () => Promise<{ Content: any }> };
 
 const project = (Astro.props as { project: RenderableProject }).project;
@@ -11,9 +11,11 @@ if (!project) {
 const { Content, headings } = await (project as any).render();
 const rawHeadings = (headings || []) as any[];
 const duplicateTitleHeading = rawHeadings[0] && rawHeadings[0].depth === 1 && rawHeadings[0].text?.trim() === project.data.title?.trim();
+// Normalize status label (show [ONGOING] for ongoing projects)
+const statusLabel = project.data.status ? (project.data.status.toLowerCase() === 'ongoing' ? '[ONGOING]' : project.data.status) : undefined;
 ---
 
-<article class="mx-auto px-5 md:px-8 lg:px-10 content-visibility-auto {duplicateTitleHeading ? 'duplicate-heading-hidden' : ''}" style="max-width:clamp(680px,72ch,960px);">
+<article class:list={["mx-auto","px-5","md:px-8","lg:px-10","content-visibility-auto", duplicateTitleHeading && 'duplicate-heading-hidden']} style="max-width:clamp(680px,72ch,960px);">
   <!-- Back to Projects Link -->
   <div class="mb-6">
     <a
@@ -24,31 +26,35 @@ const duplicateTitleHeading = rawHeadings[0] && rawHeadings[0].depth === 1 && ra
     </a>
   </div>
 
-  <h1 class="text-3xl md:text-4xl font-semibold mb-4 md:mb-6 text-slate-100 tracking-tight leading-tight">
+  <h1 class="text-3xl md:text-4xl font-semibold mb-4 text-slate-100 tracking-tight leading-tight">
     {project.data.title}
   </h1>
-  <div class="mb-8 md:mb-10 space-y-4">
-    <div class="text-slate-400 text-[11px] md:text-[12px] mono flex flex-wrap gap-y-1 gap-x-3 items-center leading-relaxed">
-      {project.data.date && <span class="text-violet-300/90">{new Date(project.data.date).toLocaleDateString()}</span>}
-      {project.data.status && <span class="text-cyan-400">• {project.data.status.toUpperCase()}</span>}
-      {project.data.collaborators && project.data.collaborators.length > 0 && (
-        <span class="flex flex-wrap gap-1.5 md:gap-2 items-center">
-          <span class="hidden md:inline text-slate-600">•</span>
-          {project.data.collaborators.map((c: string) => (
-            <span class="px-2 py-0.5 rounded bg-slate-800/60 text-violet-200 text-[10px] md:text-[11px] tracking-wide">{c}</span>
-          ))}
+  <div class="header-accent-bar w-full mb-8"></div>
+  <div class="post-meta mb-10">
+    <div class="meta-primary">
+      {project.data.date && (
+        <span class="date-pill" title="Start date">
+          <time>{new Date(project.data.date).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}</time>
         </span>
       )}
-      {project.data.tags && project.data.tags.length > 0 && (
-        <span class="flex flex-wrap gap-1.5 md:gap-2 items-center">
-          <span class="hidden md:inline text-slate-600">•</span>
-          {project.data.tags.map((tag: string) => (
-            <span class="px-2 py-0.5 rounded bg-slate-800/60 text-violet-300 text-[10px] md:text-[11px] tracking-wide">#{tag}</span>
-          ))}
-        </span>
+      {statusLabel && (
+        <span class="status-pill" title="Project status">{statusLabel}</span>
       )}
     </div>
-    <!-- TOC removed -->
+    {project.data.collaborators && project.data.collaborators.length > 0 && (
+      <div class="collab-row" aria-label="Collaborators">
+        {project.data.collaborators.map(c => (
+          <span class="collab-pill">{`@${c}`}</span>
+        ))}
+      </div>
+    )}
+    {project.data.tags && project.data.tags.length > 0 && (
+      <div class="tag-pills" aria-label="Tags">
+        {project.data.tags.map(tag => (
+          <span class="tag-pill">{tag}</span>
+        ))}
+      </div>
+    )}
   </div>
   <div class="min-w-0 md-article prose prose-invert max-w-none">
     <Content />
@@ -56,7 +62,7 @@ const duplicateTitleHeading = rawHeadings[0] && rawHeadings[0].depth === 1 && ra
 </article>
 
 <style>
-.md-article pre { @apply border bg-slate-900/80 rounded-lg shadow-md shadow-black/30; border-color: var(--border-color); }
+.md-article pre { @apply border bg-slate-900 rounded-lg shadow-md shadow-black/30; background-color: rgba(15,23,42,0.8); border-color: var(--border-color); }
 .md-article code:not(pre code) { @apply bg-slate-800/70 px-1.5 py-0.5 rounded; }
 .md-article h2 { @apply mt-14 mb-4 text-2xl font-semibold tracking-tight; }
 .md-article h3 { @apply mt-10 mb-3 text-xl font-semibold tracking-tight; }
@@ -65,4 +71,21 @@ const duplicateTitleHeading = rawHeadings[0] && rawHeadings[0].depth === 1 && ra
 .md-article p { @apply leading-relaxed; }
 .md-article a { @apply underline decoration-[var(--accent-soft)] decoration-2 underline-offset-2 hover:opacity-90 transition; }
 .duplicate-heading-hidden .md-article h1:first-of-type { display: none; }
+/* Project metadata styling aligned with blog (full-width accent bar uses global .header-accent-bar) */
+.post-meta { display:flex; flex-direction:column; gap:1.4rem; }
+.meta-primary { display:flex; align-items:center; flex-wrap:wrap; gap:.55rem .9rem; font:600 11px/1.1 "JetBrains Mono",monospace; letter-spacing:.06em; }
+.meta-primary > * { display:inline-flex; align-items:center; }
+.date-pill,.status-pill,.collab-pill { background:rgba(30,36,50,.55); border:1px solid var(--border-color); padding:0.38rem .65rem .42rem; border-radius:var(--radius-pill); color:#e2e8f0; box-shadow:0 2px 4px -2px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04); position:relative; font-weight:500; }
+.status-pill { color:#2dd4bf; border-color:rgba(45,212,191,.45); background:linear-gradient(145deg,rgba(13,148,136,.25),rgba(13,148,136,.08)); }
+.collab-row { display:flex; flex-wrap:wrap; gap:.7rem 1.15rem; }
+.collab-pill { background:linear-gradient(145deg,rgba(99,102,241,.22),rgba(99,102,241,.06)); border:1px solid rgba(129,140,248,.45); color:#c7d2fe; font-weight:600; padding:0.38rem .65rem .42rem; border-radius:var(--radius-pill); font:600 10px/1.05 "JetBrains Mono",monospace; letter-spacing:.12em; position:relative; display:inline-flex; align-items:center; }
+.collab-pill:before { content:"@"; opacity:.6; margin-right:.25rem; font-weight:400; }
+.meta-primary > * + * { position:relative; }
+.meta-primary > * + *:before { content:""; position:absolute; left:-.55rem; top:50%; width:4px; height:4px; background:#64748b; border-radius:50%; transform:translate(-50%,-50%); }
+.tag-pills { display:flex; flex-wrap:wrap; gap:.65rem .75rem; }
+.tag-pill { text-transform:uppercase; font:600 10px/1.05 "JetBrains Mono",monospace; letter-spacing:.12em; padding:.34rem .7rem .38rem; border-radius:var(--radius-pill); background:linear-gradient(150deg,rgba(111,99,216,.18),rgba(111,99,216,.06)); border:1px solid rgba(111,99,216,.35); color:#e2e8ff; position:relative; box-shadow:0 1px 3px -1px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05); }
+.tag-pill:before { content:'#'; opacity:.55; margin-right:.25rem; font-weight:400; }
+.tag-pill:hover { background:linear-gradient(150deg,rgba(111,99,216,.28),rgba(111,99,216,.1)); border-color:rgba(111,99,216,.55); }
+@media (min-width:640px){ .meta-primary{font-size:11.5px;} .tag-pill{font-size:10.2px;} }
+@media (min-width:768px){ .meta-primary{font-size:12px;} .tag-pill{font-size:10.6px; padding:.36rem .78rem .4rem;} }
 </style>

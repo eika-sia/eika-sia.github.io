@@ -1,19 +1,18 @@
 ---
 import BlogPost from "../../components/blog/BlogPost.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { ensureUniqueSlugs } from '../../lib/slug';
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map((post: CollectionEntry<"blog">) => {
-    const slug = (post.data as any).slug || post.id.replace(/\.md$/, '');
-    return { params: { slug }, props: { post: { ...post, data: { ...post.data, slug } } } };
-  });
+  const uniq = ensureUniqueSlugs(posts as any);
+  return uniq.map((post: any) => ({ params: { slug: post.data.slug }, props: { post } }));
 }
 
 const { post }: { post: CollectionEntry<"blog"> } = Astro.props;
 ---
 
-<BaseLayout>
+<BaseLayout title={post.data.title} description={post.data.description} type="article" datePublished={post.data.date} ogImage="/favicon.svg" tags={post.data.tags}>
   <BlogPost post={post} />
 </BaseLayout>

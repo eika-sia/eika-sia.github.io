@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from "astro:content";
+import { resolveSlug } from '../lib/slug';
 import Card from '../components/site/Card.astro';
+import TagDropdown from '../components/site/TagDropdown.astro';
 
 const rawProjects = await getCollection("projects");
 interface NormalizedProject {
@@ -27,36 +29,42 @@ const sortedProjects: NormalizedProject[] = rawProjects
         ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
         : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
     // Fallback slug derived from filename if frontmatter slug missing
-    const derivedSlug = (p.data as any).slug || p.id.replace(/\.md$/, '');
+  const derivedSlug = resolveSlug(p as any);
     return { id: p.id, data: { ...p.data, slug: derivedSlug } as any, tags, collaborators, status, category, categoryClasses };
   });
+
+// Tag counts and frequency-sorted list
+const tagCounts: Record<string, number> = {};
+sortedProjects.forEach(p => p.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+const allTags = Object.keys(tagCounts).sort((a,b) => tagCounts[b] - tagCounts[a] || a.localeCompare(b));
 ---
 
 <BaseLayout>
   <div class="content-shell">
     <section class="relaxed-section max-w-6xl mx-auto">
-      <header class="space-y-5 md:space-y-7">
+  <header class="space-y-4 md:space-y-5 pb-2 md:pb-3">
         <h1 class="font-bold leading-tight tracking-tight text-slate-100 text-4xl md:text-5xl">Research Projects</h1>
         <p class="narrow-text text-base md:text-lg text-slate-300 leading-relaxed md:leading-loose">
           Exploring the intersection of neuroscience, computer engineering, and psychology through hands-on research and development projects.
         </p>
-        <div class="header-accent-bar w-60"></div>
+  <div class="header-accent-bar w-full"></div>
       </header>
-      <div class="first-card-gap relaxed-grid cols-2">
+  {allTags.length > 0 && (<TagDropdown id="projects-tagfilter" items={allTags.map(t => ({ value: t, count: tagCounts[t] }))} total={sortedProjects.length} targetSelector=".project-item" />)}
+      <div class="first-card-gap relaxed-grid cols-2" id="project-grid">
         {sortedProjects.map((project: NormalizedProject) => (
-          <Card title={project.data.title} description={project.data.description} tags={project.tags}>
-            <div class="text-[12px] md:text-[13px] text-slate-400 mb-5 mono flex flex-wrap items-center gap-3 leading-relaxed">
-              {project.status && <span class="text-[var(--accent-soft)] font-semibold tracking-wide text-[12px] md:text-[13px]">[{project.status.toUpperCase()}]</span>}
+          <Card title={project.data.title} description={project.data.description} tags={project.tags} data-tags={project.tags.join(',')} class="project-item">
+            <div class="text-[12px] text-slate-400 mb-5 mono flex flex-wrap items-center gap-3 leading-relaxed">
+              {project.status && <span class="text-[var(--accent-soft)] font-semibold tracking-wide text-[12px]">[{project.status.toUpperCase()}]</span>}
               <span class="text-slate-600">•</span>
               <span class="text-slate-300">{new Date(project.data.date).toLocaleDateString()}</span>
             </div>
             {project.collaborators.length > 0 && (
-              <div class="text-[12px] md:text-[13px] text-slate-400/90 mb-7 tracking-wide leading-snug">
+              <div class="text-[12px] text-slate-400/90 mb-7 tracking-wide leading-snug">
                 <span class="text-[var(--accent-soft)] font-semibold">Collaborators:</span> {project.collaborators.join(", ")}
               </div>
             )}
             <div class="flex items-center justify-between pt-1">
-              <span class={`px-2.5 py-1.5 rounded text-[11px] md:text-[12px] mono tracking-wide border font-medium shadow-[0_0_0_1px_rgba(77,83,201,0.12)] ${project.categoryClasses}`}>
+              <span class={`px-2.5 py-1.5 rounded text-[11px] mono tracking-wide border font-medium shadow-[0_0_0_1px_rgba(77,83,201,0.12)] ${project.categoryClasses}`}>
                 {project.category}
               </span>
               <a href={`/projects/${(project.data as any).slug}`} class="badge !text-[0.66rem] md:!text-[0.7rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
@@ -69,3 +77,5 @@ const sortedProjects: NormalizedProject[] = rawProjects
     </section>
   </div>
 </BaseLayout>
+
+<!-- Inline script & select styles removed; handled by TagDropdown component -->

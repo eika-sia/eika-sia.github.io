@@ -6,22 +6,27 @@ import CurrentProjects from '../components/projects/CurrentProjects.astro';
 import PublicationsList from '../components/site/PublicationsList.astro';
 import CtaButton from '../components/site/CtaButton.astro';
 import { getCollection, type CollectionEntry } from "astro:content";
+import { resolveSlug } from '../lib/slug';
 import Card from '../components/site/Card.astro';
 
 const blogPosts = await getCollection("blog");
 const latestTwo = blogPosts
   .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0,2);
+  .slice(0,2)
+  .map(p => ({
+    ...p,
+    resolvedSlug: resolveSlug(p as any)
+  }));
 ---
 
 <BaseLayout>
   <div class="content-shell relaxed-stack">
   <!-- Hero Section -->
-  <section class="pt-6 md:pt-8 pb-8 md:pb-10 text-center space-y-7 md:space-y-9">
+  <section class="pt-0 md:pt-0 pb-8 md:pb-9 text-center space-y-5 md:space-y-7">
     <div class="flex flex-col items-center gap-4">
-      <div class="flex items-center gap-2 text-sm mono text-slate-500">
-        <span class="text-[var(--accent)]">$</span>
-        <span>whoami</span>
+      <div class="section-prompt section-prompt-hero" aria-label="hero command">
+        <span class="prompt-symbol accent-soft mono" style="color: var(--accent-soft) !important;">$</span>
+        <span class="prompt-text mono">whoami</span>
       </div>
   <h1 class="font-bold text-slate-100 leading-tight tracking-tight">Eikasia | Goran Ivančić</h1>
       <div class="text-xl md:text-2xl text-[var(--accent-soft)] min-h-[2.2rem] flex items-center justify-center">
@@ -43,41 +48,35 @@ const latestTwo = blogPosts
         Research interests: <span class="text-[var(--accent)]">Local neural dynamics • Computer architecture • Spatial cognition • Cryptography</span>
       </div>
     </div>
-    <div class="header-accent-bar mx-auto w-56" style="margin-top: 10px"></div>
+  <div class="header-accent-bar w-full"></div>
   </section>
 
-  <!-- Current Projects (moved to top) -->
-  <section class="relaxed-section max-w-6xl mx-auto pb-4 md:pb-6">
-    <SectionHeader title="Current Research & Projects" folder="projects" variant="bar" sub="Active technical & neuroscience initiatives." />
+  <!-- Current Projects (with inline CTA) -->
+  <section class="relaxed-section max-w-6xl mx-auto pb-3 md:pb-4">
+    <SectionHeader title="Current Research & Projects" command="head ~/projects/* | less" variant="bar" sub="Active technical & neuroscience initiatives." />
     <div class="first-card-gap">
       <CurrentProjects />
+      <div class="pt-0 flex justify-center">
+        <CtaButton href="/projects" label="See all projects" />
+      </div>
     </div>
-  </section>
-
-  <!-- Projects CTA (moved just after projects) -->
-  <section class="pt-2 pb-10 md:pb-14 max-w-4xl mx-auto flex flex-col items-center -mt-1">
-    <div class="w-full h-7 md:h-9 relative mb-5 pointer-events-none select-none">
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d121b]/70 to-[#090b10]"></div>
-      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-soft)]/30 to-transparent"></div>
-    </div>
-    <CtaButton href="/projects" label="See all projects" />
   </section>
 
   <!-- Latest Blog Preview (reuse Card component) -->
   <section class="relaxed-section max-w-5xl mx-auto">
-    <SectionHeader title="Latest Notes" folder="blog" variant="bar" sub="Recent writing & research reflections." />
+    <SectionHeader title="Latest Notes" command="head ~/blog/* | less" variant="bar" sub="Recent writing & research reflections." />
     <div class="first-card-gap relaxed-stack">
-  {latestTwo.map((post: CollectionEntry<'blog'>) => (
+  {latestTwo.map((post: any) => (
     <Card title={post.data.title} description={post.data.description} tags={post.data.tags}>
           <div class="text-xs text-slate-500 mb-4 mono flex items-center gap-3">
             <span class="text-[var(--accent-soft)]">{new Date(post.data.date).toLocaleDateString()}</span>
           </div>
           <div class="flex items-center justify-end pt-1">
-    <a href={`/blog/${(post.data as any).slug || post.id.replace(/\.md$/, '')}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
+  <a href={`/blog/${post.resolvedSlug}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
               Read Article →
             </a>
           </div>
-        </Card>
+    </Card>
   ))}
       <div class="pt-4 flex justify-center">
         <CtaButton href="/blog" label="View all posts" />

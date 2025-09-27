@@ -1,0 +1,191 @@
+---
+interface TagItem { value: string; count: number; }
+export interface Props {
+  id: string;               // unique id base for component
+  items: TagItem[];         // tag items (excluding All)
+  total: number;            // total number of entries for All
+  param?: string;           // URL query param name (default 'tag')
+  targetSelector: string;   // selector for cards/items to filter (e.g. '.post-item')
+  dataAttr?: string;        // attribute containing comma list of tags (default 'data-tags')
+  label?: string;           // visible left label (default 'Tag')
+}
+const {
+  id,
+  items = [],
+  total,
+  param = 'tag',
+  targetSelector,
+  dataAttr = 'data-tags',
+  label = ''
+} = Astro.props as Props;
+---
+<div class="tag-dd-wrapper mb-6 flex items-center gap-5" data-tag-filter id={id}
+  data-tagdd-root data-param={param} data-target={targetSelector} data-attr={dataAttr} data-total={total}>
+  {label && (
+    <span class="font-semibold text-slate-300 tracking-wide flex items-center gap-3 text-xs">
+      {label}
+      <span class="inline-block h-px w-10 bg-[var(--accent-soft)]/50"></span>
+    </span>
+  )}
+  <div class="tag-dd relative">
+    <button type="button" class="tag-dd-trigger" id={`${id}-trigger`} aria-haspopup="listbox" aria-expanded="false" data-current="*">
+      <span class="tag-dd-icon" aria-hidden="true">#</span>
+      <span class="tag-dd-text"><strong>All</strong> <span class="count">({total})</span></span>
+      <span class="tag-dd-caret" aria-hidden="true">▾</span>
+    </button>
+    <ul class="tag-dd-panel" id={`${id}-panel`} role="listbox" aria-labelledby={`${id}-trigger`} tabindex="-1" hidden>
+      <li role="option" data-value="*" aria-selected="true" class="sel">
+        <span class="name">All</span>
+        <span class="count">{total}</span>
+        <span class="check" aria-hidden="true">✓</span>
+      </li>
+      {items.map(it => (
+        <li role="option" data-value={it.value} aria-selected="false">
+          <span class="name">{it.value}</span>
+          <span class="count">{it.count}</span>
+          <span class="check" aria-hidden="true">✓</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script is:inline>
+(() => {
+  const script = document.currentScript;
+  if(!script) return;
+  const prev = script.previousElementSibling;
+  if(!prev || !prev.hasAttribute('data-tagdd-root')) return; // safety
+  const root = prev;
+  if(root.getAttribute('data-init')==='1') return;
+  root.setAttribute('data-init','1');
+  const trigger = root.querySelector('.tag-dd-trigger');
+  const panel = root.querySelector('.tag-dd-panel');
+  const options = Array.from(panel.querySelectorAll('[role="option"]'));
+  const PARAM = root.getAttribute('data-param') || 'tag';
+  const TARGET_SELECTOR = root.getAttribute('data-target') || '.post-item';
+  const DATA_ATTR = root.getAttribute('data-attr') || 'data-tags';
+  const TOTAL = parseInt(root.getAttribute('data-total')||'0',10);
+
+  function open(){
+    if(!panel.hasAttribute('hidden')) return;
+    panel.removeAttribute('hidden');
+    trigger.setAttribute('aria-expanded','true');
+    const sel = panel.querySelector('[aria-selected="true"]');
+    if(sel && sel.focus) sel.focus();
+    document.addEventListener('pointerdown', onDocDown, true);
+    document.addEventListener('keydown', onKeyNav, true);
+  }
+  function close(){
+    if(panel.hasAttribute('hidden')) return;
+    panel.setAttribute('hidden','');
+    trigger.setAttribute('aria-expanded','false');
+    document.removeEventListener('pointerdown', onDocDown, true);
+    document.removeEventListener('keydown', onKeyNav, true);
+  }
+  function onDocDown(e){
+    if(!root.contains(e.target)) close();
+  }
+  function applyFilter(val){
+    const cards = Array.from(document.querySelectorAll(TARGET_SELECTOR));
+    cards.forEach(card => {
+      const tags = (card.getAttribute(DATA_ATTR) || '').split(',').filter(Boolean);
+      const show = val === '*' || tags.includes(val);
+      card.classList.toggle('hidden', !show);
+    });
+    if(history.replaceState){
+      const url = new URL(location.href);
+      if(val === '*') url.searchParams.delete(PARAM); else url.searchParams.set(PARAM, val);
+      history.replaceState(null,'',url.toString());
+    }
+  }
+  function selectOption(li){
+    options.forEach(o => o.setAttribute('aria-selected','false'));
+    li.setAttribute('aria-selected','true');
+    const val = li.getAttribute('data-value');
+    trigger.dataset.current = val;
+    const name = li.querySelector('.name').textContent;
+    const count = li.querySelector('.count').textContent;
+    trigger.querySelector('.tag-dd-text').innerHTML = (val === '*')
+      ? `<strong>All</strong> <span class="count">(${TOTAL})</span>`
+      : `<strong>${name}</strong> <span class="count">(${count})</span>`;
+    applyFilter(val);
+  }
+  function onKeyNav(e){
+  if(panel.hasAttribute('hidden')){
+      if(document.activeElement === trigger && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault(); open();
+      }
+      return;
+    }
+    const active = document.activeElement;
+    const idx = options.indexOf(active);
+    if(e.key === 'Escape'){ e.preventDefault(); close(); trigger.focus(); }
+    else if(e.key === 'ArrowDown'){
+      e.preventDefault(); const n = options[(idx+1+options.length)%options.length]; if(n && n.focus) n.focus();
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault(); const n = options[(idx-1+options.length)%options.length]; if(n && n.focus) n.focus();
+    } else if(e.key === 'Enter' || e.key === ' ') {
+      if(options.includes(active)) { e.preventDefault(); selectOption(active); close(); trigger.focus(); }
+    } else if(e.key === 'Tab') { close(); }
+  }
+  trigger.addEventListener('click', () => { panel.hasAttribute('hidden') ? open() : close(); });
+  trigger.addEventListener('keydown', (e) => { if(e.key === 'ArrowDown'){ e.preventDefault(); open(); } });
+  options.forEach(li => {
+    li.tabIndex = -1;
+    li.addEventListener('click', () => { selectOption(li); close(); trigger.focus(); });
+  });
+
+  // Initial filter from URL
+  const urlVal = new URL(location.href).searchParams.get(PARAM);
+  if(urlVal){
+    const match = options.find(o => o.getAttribute('data-value') === urlVal);
+    if(match){ selectOption(match); }
+    else applyFilter('*');
+  } else applyFilter('*');
+})();
+</script>
+
+<style is:global>
+  /* Ensure vertical spacing always applies even if margin collapse or utility purge interferes */
+  /* Adjusted (halved) vertical spacing */
+  /* Reduced vertical offset to tighten space under section header */
+  .tag-dd-wrapper { margin-top: var(--tag-filter-gap, 0.28rem); }
+  @media (min-width: 768px){ .tag-dd-wrapper { margin-top: var(--tag-filter-gap-lg, 0.36rem); } }
+  .tag-dd-trigger { @apply appearance-none outline-none; }
+  .tag-dd { font-size:13px; }
+  .tag-dd-trigger {
+    background: linear-gradient(140deg, rgba(32,37,50,0.72), rgba(24,28,40,0.55));
+    border:1px solid rgba(111,99,216,0.28);
+    color: var(--accent-soft);
+  padding:0.65rem 2.4rem 0.65rem 1rem;
+    border-radius: var(--radius-pill);
+    line-height:1.1;
+  letter-spacing:0.4px;
+    font-weight:500;
+    display:inline-flex; align-items:center; gap:0.55rem;
+    position:relative;
+    box-shadow: 0 0 0 1px rgba(77,83,201,0.15), 0 4px 14px -8px rgba(0,0,0,0.6);
+    transition: background .35s, border-color .35s, box-shadow .4s;
+  }
+  .tag-dd-trigger:hover { border-color: rgba(111,99,216,0.45); background: linear-gradient(140deg, rgba(40,48,64,0.78), rgba(28,34,48,0.62)); }
+  .tag-dd-trigger:focus-visible { box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 5px rgba(111,99,216,0.3); }
+  .tag-dd-trigger[data-current="*"] .tag-dd-icon { opacity:.75; }
+  .tag-dd-icon { font-size:1.05rem; line-height:1; background:rgba(111,99,216,0.2); padding:4px 9px 6px; border-radius:var(--radius-pill); color: var(--accent-soft); font-weight:600; letter-spacing:0.035em; }
+  .tag-dd-caret { position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); font-size:14px; color:var(--accent-soft); pointer-events:none; }
+  .tag-dd-panel { list-style:none; margin:4px 0 0; padding:0.55rem 0.55rem 0.5rem; position:absolute; top:100%; left:0; min-width: 200px; background:rgba(19,25,38,0.92); backdrop-filter: blur(12px); border:1px solid rgba(111,99,216,0.3); box-shadow: 0 10px 36px -14px rgba(0,0,0,0.7), 0 0 0 1px rgba(77,83,201,0.15); border-radius: 14px; display:flex; flex-direction:column; gap:2px; max-height:320px; overflow:auto; z-index:40; animation: tagdd-fade .18s ease; }
+  .tag-dd-panel::-webkit-scrollbar { width:6px; }
+  .tag-dd-panel::-webkit-scrollbar-thumb { background:rgba(111,99,216,0.4); border-radius:4px; }
+  .tag-dd-panel li { cursor:pointer; display:grid; grid-template-columns: 1fr auto auto; align-items:center; gap:0.75rem; padding:0.55rem 0.75rem 0.6rem 0.75rem; font-size:13px; letter-spacing:0.4px; color: var(--text); border-radius:10px; position:relative; transition: background .25s, color .25s; }
+  .tag-dd-panel li .count { font-size:12px; font-weight:600; color: var(--accent-soft); letter-spacing:0.04em; }
+  .tag-dd-panel li .check { opacity:0; font-size:11px; color: var(--accent-soft); margin-left:0.25rem; }
+  .tag-dd-panel li[aria-selected="true"], .tag-dd-panel li:hover { background: linear-gradient(135deg, rgba(77,83,201,0.18), rgba(111,99,216,0.08)); color: var(--text-strong); }
+  .tag-dd-panel li[aria-selected="true"] .check { opacity:1; }
+  .tag-dd-panel li:focus { outline:none; box-shadow: inset 0 0 0 1px rgba(111,99,216,0.55); }
+  .tag-dd-panel li:active { background: linear-gradient(135deg, rgba(77,83,201,0.28), rgba(111,99,216,0.15)); }
+  .tag-dd-panel[hidden] { display:none !important; }
+  @keyframes tagdd-fade { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0);} }
+  @media (max-width: 640px){
+    .tag-dd-panel { max-width: calc(100vw - 2rem); }
+  }
+</style>

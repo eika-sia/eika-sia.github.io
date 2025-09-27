@@ -61,9 +61,9 @@ const achievementList: AchievementItem[] = (achievements as AchievementItem[]).s
   </section>
 
   <!-- Experience Section -->
-  <section class="cv-section space-y-10" aria-labelledby="exp">
+  <section class="cv-section space-y-8 cv-tight-gap" aria-labelledby="exp">
     <SectionHeader title="Experience" folder="work" variant="bar" sub="Selected academic, research & industry roles." />
-    <div class="exp-grid">
+  <div class="exp-grid first-card-gap">
       {work.map((exp: ExperienceItem) => (
         <div class="exp-card">
           <div class="exp-org">{exp.organization}</div>
@@ -82,9 +82,9 @@ const achievementList: AchievementItem[] = (achievements as AchievementItem[]).s
   </section>
 
   <!-- Skills Section -->
-  <section class="cv-section space-y-10" aria-labelledby="skills">
+  <section class="cv-section space-y-8 cv-tight-gap" aria-labelledby="skills">
     <SectionHeader title="Skills & Tooling" folder="skills" variant="bar" sub="Core technical, research and complementary competencies." />
-    <div class="skill-groups">
+  <div class="skill-groups first-card-gap">
       {skillGroups.map(group => (
         <div class="skill-group">
           <h4>{group.category}</h4>
@@ -103,9 +103,9 @@ const achievementList: AchievementItem[] = (achievements as AchievementItem[]).s
   </section>
 
   <!-- Interests & Hobbies Section -->
-  <section class="cv-section space-y-10" aria-labelledby="misc">
+  <section class="cv-section space-y-8 cv-tight-gap" aria-labelledby="misc">
     <SectionHeader title="Interests & Hobbies" folder="misc" variant="bar" sub="Active research themes, tech curiosities & creative outlets." />
-    <div class="interest-groups">
+  <div class="interest-groups first-card-gap">
       <div class="interest-group">
         <div class="interest-label">Research</div>
         <div class="interest-chips">

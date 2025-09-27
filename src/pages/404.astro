@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="This page does not exist." ogImage="/favicon.svg">
+  <section class="min-h-[40vh] flex flex-col items-center justify-center text-center gap-8 py-20">
+    <div class="space-y-5 max-w-xl">
+      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">404</h1>
+      <p class="text-slate-400 text-lg leading-relaxed">The page you're looking for doesn't exist or has moved.</p>
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-[var(--accent-soft)]/60 to-transparent" />
+    </div>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/" class="badge px-6 py-4 text-[0.7rem] font-semibold tracking-wider hover:brightness-110 transition">← Back to homepage</a>
+    </div>
+  </section>
+</BaseLayout>
