@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { resolveSlug } from "../lib/slug";
 import { site } from "../site.config";
 
 export async function GET() {
@@ -9,7 +10,7 @@ export async function GET() {
 
 	const items = projects
 		.map((p) => {
-			const slug = (p.data as any).slug || p.id.replace(/\.md$/, "");
+			const slug = resolveSlug(p as any);
 			const url = `${site.url}/projects/${slug}`;
 			return `  <item>\n    <title><![CDATA[${
 				p.data.title

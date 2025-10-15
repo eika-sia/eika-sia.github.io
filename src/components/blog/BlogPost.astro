@@ -37,11 +37,7 @@ if (post.data.tags && post.data.tags.length > 0) metaParts.push({ kind: 'tags', 
   <div class="header-accent-bar w-full mb-8"></div>
   <div class="post-meta mb-10">
     <div class="meta-primary">
-      {post.data.date && (
-        <span class="date-pill" title="Published date">
-          <time>{new Date(post.data.date).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}</time>
-        </span>
-      )}
+      <span class="ml-3">{post.data.date}</span>
       {post.data.readTime && (
         <span class="read-pill" title="Estimated read time">{post.data.readTime} min</span>
       )}

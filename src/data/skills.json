@@ -1,16 +1,24 @@
 [
 	{
 		"category": "Neuro / Research",
-		"items": ["EEG", "Signal Processing", "Neural Modeling", "Statistics"]
+		"items": [
+			"EEG",
+			"Signal Processing",
+			"Cognitive Modeling",
+			"Statistics"
+		]
 	},
 	{
 		"category": "Systems / Hardware",
-		"items": ["FPGA", "Verilog", "RISC-V", "Embedded C"]
+		"items": ["FPGA", "RISC-V", "Embedded C"]
 	},
-	{ "category": "Software", "items": ["Python", "Rust", "Linux", "Astro"] },
 	{
-		"category": "Security",
-		"items": ["CTF", "Reverse Eng", "Binary Exploit", "Crypto"]
+		"category": "Software",
+		"items": ["Python", "Linux", "Astro (web framework)"]
+	},
+	{
+		"category": "CyberSecurity",
+		"items": ["CTF", "Reverse Engineering", "Cryptography"]
 	},
 	{
 		"category": "Other",

@@ -7,7 +7,7 @@
 		"end": "August 2025",
 		"type": "internship",
 		"description": [
-			"Preparation of educational STEM materials with a focus on web development and astronomy",
+			"Preparation of educational STEM materials with a focus on Python simulations and astronomy",
 			"Conducting workshops and project-based activities with children"
 		]
 	},
@@ -33,18 +33,6 @@
 		"description": [
 			"Assisted students during lab exercises in the course Digital Logic",
 			"Learned and applied VHDL and FPGA technologies"
-		]
-	},
-	{
-		"position": "Documentation Archivist",
-		"organization": "mStart Ltd.",
-		"location": "Croatia",
-		"start": "July 2024",
-		"end": "August 2025",
-		"type": "internship",
-		"description": [
-			"Handling and preparing documentation for archival",
-			"Error checking and verification of documentation"
 		]
 	},
 	{

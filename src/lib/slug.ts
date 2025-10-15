@@ -1,6 +1,6 @@
 // Centralized slug resolution utility
 // Prefers explicit frontmatter slug (non-empty after trim), then Astro entry.slug (if provided), then filename fallback.
-function slugify(input: string) {
+export function slugify(input: string) {
 	// Normalize diacritics, remove combining marks
 	return input
 		.normalize("NFD")

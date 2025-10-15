@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import { site } from "../site.config";
+import { resolveSlug } from "../lib/slug";
 
 /**
  * Simple JSON Feed (https://www.jsonfeed.org/version/1) combining blog + projects.
@@ -21,17 +22,13 @@ export async function GET() {
 				"/" +
 				(entry.collection === "blog" ? "blog" : "projects") +
 				"/" +
-				(entry.data.slug ||
-					(entry as any).slug ||
-					entry.id.replace(/\.md$/, "")),
+				resolveSlug(entry as any),
 			url:
 				site.url +
 				"/" +
 				(entry.collection === "blog" ? "blog" : "projects") +
 				"/" +
-				(entry.data.slug ||
-					(entry as any).slug ||
-					entry.id.replace(/\.md$/, "")),
+				resolveSlug(entry as any),
 			title: entry.data.title,
 			content_text: entry.data.description,
 			date_published: entry.data.date,

@@ -34,7 +34,7 @@ const latestTwo = blogPosts
         <span class="cursor-blink ml-1">▊</span>
       </div>
   <p class="text-base md:text-xl narrow-text mx-auto text-slate-300 leading-relaxed md:leading-loose tracking-wide">
-        Exploring human cognition through computational neuroscience. Playing CTFs and learning operating systems on the side.
+        I'm a neuroscientist and computer engineer researching the intersection of brain function and computational systems.
       </p>
       <div class="flex flex-wrap justify-center gap-4 md:gap-6 pt-2">
         <a href="mailto:goran.ivancic@fer.hr" class="badge text-[var(--accent-soft)] !text-xs px-5 py-3 flex items-center gap-2 hover:brightness-110 transition">
@@ -68,8 +68,8 @@ const latestTwo = blogPosts
     <div class="first-card-gap relaxed-stack">
   {latestTwo.map((post: any) => (
     <Card title={post.data.title} description={post.data.description} tags={post.data.tags}>
-          <div class="text-xs text-slate-500 mb-4 mono flex items-center gap-3">
-            <span class="text-[var(--accent-soft)]">{new Date(post.data.date).toLocaleDateString()}</span>
+          <div class="text-sm text-slate-500 mb-4 mono flex items-center gap-3">
+            <span class="ml-3">{post.data.date}</span>
           </div>
           <div class="flex items-center justify-end pt-1">
   <a href={`/blog/${post.resolvedSlug}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">

@@ -1,16 +1,26 @@
 ---
 import ProjectPage from "../../components/projects/ProjectPage.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import { ensureUniqueSlugs } from '../../lib/slug';
+import { ensureUniqueSlugs, slugify } from '../../lib/slug';
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
   const uniq = ensureUniqueSlugs(projects as any);
-  return uniq.map((project: any) => ({ params: { slug: project.data.slug }, props: { project } }));
+  // Map to primary slug and add alias from title-derived slug for compatibility
+  const paths: { params: { slug: string }; props: any }[] = [];
+  for (const project of uniq as any[]) {
+    const primary = project.data.slug;
+    const alias = slugify(project.data.title || primary);
+    paths.push({ params: { slug: primary }, props: { project } });
+    if (alias !== primary) {
+      paths.push({ params: { slug: alias }, props: { project } });
+    }
+  }
+  return paths;
 }
 
-const { project }: { project: CollectionEntry<"projects"> } = Astro.props;
+const { project } = Astro.props as any;
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description} type="article" datePublished={project.data.date} ogImage="/favicon.svg" tags={project.data.tags}>

@@ -5,7 +5,7 @@
 		"venueType": "Conference",
 		"venue": "Sixth International Conference of Mathematics of Neuroscience and AI",
 		"year": 2025,
-		"tags": ["neural-networks", "memory", "cognitive-architecture"],
+		"tags": ["neural-networks", "biophysics", "neural-computing"],
 		"authors": ["Goran Ivančić"]
 	},
 	{
@@ -16,7 +16,7 @@
 		"year": 2025,
 		"tags": [
 			"neural-computing",
-			"biophysics",
+			"cognitive-modeling",
 			"computational-neuroscience"
 		],
 		"authors": ["Goran Ivančić"]

@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from "astro:content";
-import { resolveSlug } from '../lib/slug';
+import { ensureUniqueSlugs, resolveSlug } from '../lib/slug';
 import Card from '../components/site/Card.astro';
 import TagDropdown from '../components/site/TagDropdown.astro';
 
 const rawProjects = await getCollection("projects");
+const uniq = ensureUniqueSlugs(rawProjects as any);
 interface NormalizedProject {
   id: string;
   data: CollectionEntry<"projects">['data'];
@@ -16,7 +17,7 @@ interface NormalizedProject {
   categoryClasses: string;
 }
 // Sort by date (newest first) then map to normalized shape used in template
-const sortedProjects: NormalizedProject[] = rawProjects
+const sortedProjects: NormalizedProject[] = (uniq as any[])
   .sort((a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .map((p: CollectionEntry<"projects">) => {
     const tags: string[] = Array.isArray(p.data.tags) ? p.data.tags : [];
@@ -28,9 +29,8 @@ const sortedProjects: NormalizedProject[] = rawProjects
       : category === 'hardware'
         ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
         : 'bg-violet-500/20 text-violet-400 border border-violet-500/30';
-    // Fallback slug derived from filename if frontmatter slug missing
-  const derivedSlug = resolveSlug(p as any);
-    return { id: p.id, data: { ...p.data, slug: derivedSlug } as any, tags, collaborators, status, category, categoryClasses };
+  const finalSlug = resolveSlug(p as any);
+  return { id: p.id, data: { ...p.data, slug: finalSlug } as any, tags, collaborators, status, category, categoryClasses };
   });
 
 // Tag counts and frequency-sorted list
