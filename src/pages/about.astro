@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/site/SectionHeader.astro';
+import Card from '../components/site/Card.astro';
+
+const researchAgenda: { title: string; detail?: string; tags?: string[] }[] = [
+  {title: 'Neuroevolutionary algorithms', detail: 'Biological implementations of neuroevolutionary algorithms for puroses of learning complex problem solving.', tags:['Neuroevolutionary', 'neuroscience']},
+  {title: 'Topological representations of movement', detail: 'Movement in 2 dimensions is mostly explored, but toplogy of 3 dimensional movement remains mostly unexplored. Using mathmematical frameworks I hope to characterise the state spcae.', tags: ['toplogy', 'neuroscience']}
+];
+
+const selectedPapers: { title: string; author: string; year?: number; url?: string; type?: string }[] = [
+  {title: 'Vector Symbolic Finite State Machines in Attractor Neural Networks', author: 'Madison Cotteret et al', year: 2024, url:'https://direct.mit.edu/neco/article/36/4/549/119784/Vector-Symbolic-Finite-State-Machines-in-Attractor'},
+  {title: 'Impact of Local Connectivity Patterns on Excitatory-Inhibitory Network Dynamics', author: 'Yuxiu Shao et al', year: 2025, url:'https://journals.aps.org/prxlife/abstract/10.1103/PRXLife.3.023008'},
+  {title: 'Orthogonal Task Representations Prevent Catastrophic Forgetting in Continual Learning', author: 'Andrea Albert', year: 2025, url: 'https://www.algopreneurship.org/nm2025', type: 'Conference presentation'}
+];
+
+const ctfHighlights: { event: string; year: number; placement?: string; category?: string; writeup?: string }[] = [
+  {event: 'ECSC', year: 2025, placement: '19th', category: 'crypto & rev'},
+  {event: 'FAUST', year: 2025, placement: '20th', category: 'crypto'},
+  {event: 'ASIS Quals', year:2025, placement: '16th', category:"crytpo & rev"},
+  {event: 'UIUCTF', year:2025, placement:'42nd', category:'crypto & misc'}
+];
+
+const techStack: { group: string; items: string[] }[] = [
+  { group: 'OS', items: ['Arch Linux'] },
+  { group: 'WM/Compositor', items: ['Hyprland', 'KDE Plasma'] },
+  { group: 'Shell', items: ['zsh'] },
+  { group: 'Terminal', items: ['Ghostty'] },
+  { group: 'Editor/IDE', items: ['VS Code', 'Lazyvim'] },
+  { group: 'Languages', items: ['Python', 'TypeScript'] },
+  { group: 'Tools', items: ['Radare2', 'Binary Ninja', 'Sagemath'] },
+  { group: 'Hardware', items: ['Custom built PC', 'HP Omen Laptop'] },
+];
+---
+
+<BaseLayout title="About" description="Research interests, open questions, CTF highlights, and tech stack.">
+  <div class="content-shell relaxed-stack">
+    <!-- Intro -->
+    <section class="relaxed-section max-w-3xl mx-auto text-center space-y-5">
+      <div class="section-prompt" aria-label="about command">
+        <span class="prompt-symbol accent-soft mono" style="color: var(--accent-soft) !important;">$</span>
+        <span class="prompt-text mono">cat ~/about.txt</span>
+      </div>
+      <h1 class="font-bold text-slate-100 tracking-tight">About</h1>
+      <p class="narrow-text mx-auto text-slate-300 leading-relaxed md:leading-loose">
+        Neuroscience, psychology, computer engineering, and CTF. This page collects what I'm exploring now: research directions, competition highlights, and my current stack.
+      </p>
+      <div class="header-accent-bar w-full"></div>
+    </section>
+
+    <!-- Research agenda -->
+    {researchAgenda.length > 0 && (
+      <section class="relaxed-section max-w-5xl mx-auto">
+        <SectionHeader title="Research agenda" folder="research" variant="bar" sub="Themes I’m actively pursuing." />
+        <div class="first-card-gap grid gap-3 md:gap-4" style="grid-template-columns: repeat(1, minmax(0,1fr));">
+          {researchAgenda.map(item => (
+            <Card title={item.title} description={item.detail || ''} tags={item.tags || []} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Selected papers -->
+    {selectedPapers.length > 0 && (
+      <section class="relaxed-section max-w-5xl mx-auto">
+        <SectionHeader title="Selected works" variant="bar" command = 'cat ~/research/cool_stuff.txt' />
+        <div class="first-card-gap space-y-4">
+          {selectedPapers.map(p => (
+            <div class="link-card">
+              <div class="link-label">{p.type || 'Paper'}</div>
+              <div class="link-value">
+                {p.url ? (<a href={p.url} rel="noopener" target="_blank">{p.title}</a>) : p.title}
+              </div>
+              <div class="text-slate-400 text-sm">{[p.author, p.year].filter(Boolean).join(', ')}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- CTF highlights -->
+    {ctfHighlights.length > 0 && (
+      <section class="relaxed-section max-w-5xl mx-auto">
+        <SectionHeader title="CTF highlights" command='head ~/ctf/* | less' variant="bar" />
+        <div class="first-card-gap grid gap-3 md:gap-4" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+          {ctfHighlights.map(h => (
+            <Card title={`${h.event} ${h.year}`} description={[h.placement, h.category].filter(Boolean).join(' • ')} tags={[]} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Tech stack -->
+    {techStack.some(g => g.items.length) && (
+      <section class="relaxed-section max-w-5xl mx-auto">
+        <SectionHeader title="Tech stack" command="fastfetch" variant="bar" />
+        <div class="first-card-gap grid gap-3 md:gap-4" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+          {techStack.filter(g => g.items.length).map(group => (
+            <Card title={group.group} description={group.items.join(' • ')} tags={[]} variant="glass" />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
