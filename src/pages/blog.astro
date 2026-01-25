@@ -33,7 +33,7 @@ const allTags = Object.keys(tagCounts).sort((a,b) => tagCounts[b] - tagCounts[a]
         {sortedPosts.map((post) => (
           <Card title={post.data.title} description={post.data.description} tags={post.tags} class="post-item" data-tags={post.tags.join(',')}>
             <div class="text-xs text-slate-500 mb-4 mono flex items-center gap-3">
-              <span class="text-[var(--accent-soft)]">{new Date(post.data.date).toLocaleDateString()}</span>
+            <span class="text-[var(--accent-soft)]">{new Date(post.data.date).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}</span>
             </div>
             <div class="flex items-center justify-end pt-1">
               <a href={`/blog/${post.slug}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">

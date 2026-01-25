@@ -56,7 +56,7 @@ const allTags = Object.keys(tagCounts).sort((a,b) => tagCounts[b] - tagCounts[a]
             <div class="text-[12px] text-slate-400 mb-5 mono flex flex-wrap items-center gap-3 leading-relaxed">
               {project.status && <span class="text-[var(--accent-soft)] font-semibold tracking-wide text-[12px]">[{project.status.toUpperCase()}]</span>}
               <span class="text-slate-600">•</span>
-              <span class="text-slate-300">{new Date(project.data.date).toLocaleDateString()}</span>
+              <span class="text-slate-300">{new Date(project.data.date).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}</span>
             </div>
             {project.collaborators.length > 0 && (
               <div class="text-[12px] text-slate-400/90 mb-7 tracking-wide leading-snug">

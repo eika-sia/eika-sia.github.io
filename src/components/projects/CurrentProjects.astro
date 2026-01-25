@@ -22,7 +22,6 @@ interface NormalizedProject {
   categoryClasses: string;
 }
 
-// Show up to 4 projects now that layout is a 2-column grid
 const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: any) => {
   const tags: string[] = Array.isArray(p.data.tags) ? p.data.tags : [];
   const collaborators: string[] = Array.isArray(p.data.collaborators) ? p.data.collaborators : [];
@@ -44,7 +43,7 @@ const projects: NormalizedProject[] = prioritized.slice(0, 4).map((p: any) => {
       <div class="project-meta-stack tight mt-6 md:mt-7">
         <div class="text-sm text-slate-400 mono leading-relaxed tracking-wide">
           {project.status && <span class="text-violet-400">[{project.status.toUpperCase()}]</span>}
-          <span class="ml-3">{project.data.date}</span>
+          <span class="ml-3">{new Date(project.data.date).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}</span>
         </div>
         {project.collaborators.length > 0 && (
           <div class="text-base text-slate-300 leading-relaxed">

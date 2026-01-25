@@ -69,7 +69,7 @@ const latestTwo = blogPosts
   {latestTwo.map((post: any) => (
     <Card title={post.data.title} description={post.data.description} tags={post.data.tags}>
           <div class="text-sm text-slate-500 mb-4 mono flex items-center gap-3">
-            <span class="ml-3">{post.data.date}</span>
+            <span class="ml-3">{new Date(post.data.date).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}</span>
           </div>
           <div class="flex items-center justify-end pt-1">
   <a href={`/blog/${post.resolvedSlug}`} class="badge !text-[0.62rem] px-5 py-3 font-semibold tracking-wide hover:brightness-110 transition inline-flex items-center gap-2">
