@@ -74,10 +74,30 @@ The workshop was amazing and honestly not so much for the lectures which were in
 
 ![group photo](./pics/ircn2025-group.jpg)
 
-Honestly post these two conferences I felt like I actually could do something in this field and being treated as an equal in the conversation rather than a student was just so amazing. Obviously throughout the summer I continued working on my research but that's for another post. Because it's time for!
+Honestly post these two conferences I felt like I actually could do something in this field and being treated as an equal in the conversation rather than a student was just so amazing. There was also an incredible time where I could spend 5 days exploring Tokyo and Karuizawa where my A1 Japanese came in really handy. Obviously throughout the summer I continued working on my research but that's for another post. Because it's time for!
 
 ## August - Summer job in Višnjan School of Astronomy
 
+As an "expert" in the topics of neuroscience, psychology, cybersecurity, you could say maybe biomedical engineering if I apply myself, maybe mathematical skills I obviously had to take a job opportunity in (reads notes) teaching astronomy? Well I was supposed to do biomedical signals processing but due to certain issues I attended the VSA mostly as a technical assistant. I did not need to know astronomy!
+
+VSA is an amazing experience due to the people there, some of which I knew because Croatia is not as big as it seems, but also the people I met. Having a job that technically has you working from 1pm to 4am means that you get to stay up and watch the sunrise every day, drink unhealthy amount of coffee all while working on an actual relevant project. Now were we supposed to sleep at 4am? I mean yeah but you could also take analogue photos in the sunrise and have "mentors meetings" (eat ice cream)
+
+On a serious note I did assist on a seriously cool project on predicting how many new asteroids would the Vera C. Rubin observatory find. There was a lot of cool data seen and I got to work with probably the biggest datasets ever, processing millions of asteroids all through open source software. Maybe the coolest part was finding that the distributions of observations on certain kinds of objects don't follow a normal distribution like others but rather a double peaked distribution. While the students were working on the bulk of analysis I was playing around with some stuff on my own and found a really cool graph.
+
+All in all I wish to return to VSA the next year (2026: update there is potentially a better research opportunity I have to take which would prevent me from going :( but we'll see, stay tuned). Even though I did not have *any* experience with astronomy I managed to contribute and meet some amazing people.
+
+You can find some stuff we did [here](https://github.com/mjuric/sv-predictions)
+
 ## October - ECSC??
 
+So throughout all this you may ask yourself. Where is cybersecurity in this context???? 
+
+In my 2nd semester I took this class on cybersecurity for competitions because it was fun. Then went onto a competition with my friends through team Brownbird which you can read about [here](https://www.brownbird.eu/announcements/hackultet2025/). Now what that means is that we got in onto Team Croatia (Crowoatia) and throughout summer I could participate in training CTFs where we got some pretty good results especially at ASIS CTF and FAUST. 
+
+Now specifically about ECSC competition wise you can read on [another blog post](./ecsc2025-a-win-a-headache-crowoatia-and-dynamic-rev) but it's not the topic of this one. I honestly had so much fun meeting people at ECSC and fully ignoring the competition aspect it was still really cool and I got to learn a lot. Hopefully I qualify next year too.
+
 ## The new normal
+
+Honestly looking at it this may have been the most transformative summer ever. In may I was a highschooler who entered university with a passion for leaning. Now my daily work includes applications for new projects, meetings with mentors and so much more. While I may have been overworked this whole time I wouldn't change a thing because everything I did was an amazing opportunity.
+
+The recurring theme was almost always thinking that I couldn't get in. Honestly I am starting to seriously doubt that. This was culmination of years of work and failed applications to many programmes. Maybe I just found my niche, maybe the right application or an accident but whatever it was now it started. What is definitive is that with all of these achievements leave behind more work then they created. 
