@@ -94,7 +94,7 @@ So throughout all this you may ask yourself. Where is cybersecurity in this cont
 
 In my 2nd semester I took this class on cybersecurity for competitions because it was fun. Then went onto a competition with my friends through team Brownbird which you can read about [here](https://www.brownbird.eu/announcements/hackultet2025/). Now what that means is that we got in onto Team Croatia (Crowoatia) and throughout summer I could participate in training CTFs where we got some pretty good results especially at ASIS CTF and FAUST. 
 
-Now specifically about ECSC competition wise you can read on [another blog post](./ecsc2025-a-win-a-headache-crowoatia-and-dynamic-rev) but it's not the topic of this one. I honestly had so much fun meeting people at ECSC and fully ignoring the competition aspect it was still really cool and I got to learn a lot. Hopefully I qualify next year too.
+Now specifically about ECSC competition wise you can read on [another blog post](/blog/ecsc2025-a-win-a-headache-crowoatia-and-dynamic-rev/) but it's not the topic of this one. I honestly had so much fun meeting people at ECSC and fully ignoring the competition aspect it was still really cool and I got to learn a lot. Hopefully I qualify next year too.
 
 ## The new normal
 
