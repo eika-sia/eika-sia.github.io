@@ -21,6 +21,12 @@ export default defineConfig({
 	},
 	output: "static",
 	vite: {
+		server: {
+			headers: {
+				"Content-Security-Policy":
+					"default-src 'self'; img-src 'self' data: https://imgs.xkcd.com;"
+			},
+		},
 		build: {
 			rollupOptions: {
 				output: {
